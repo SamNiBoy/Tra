@@ -1094,6 +1094,8 @@ void CTraView::ScorllToMcmd()
 	//CRE.LineScroll(pFocusMcmd->beglin - pDoc->m_BegLinId - m_preMcmd->beglin);
 	CRE.ShowWindow(SW_SHOW);
 
+	UpdateStatuBar();
+
 	if (pDoc->m_bNewFileFlg)
 		pDoc->m_bNewFileFlg = false;
 }
