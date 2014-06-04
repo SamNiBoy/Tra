@@ -10,6 +10,7 @@
 #include "InProgress.h"
 #include "GphDlg.h"
 #include "OptMTF.h"
+#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1170,6 +1171,12 @@ void CTraDoc::OpenFile(CString &fileName)
 	
 	OnRefreshView();
     ::AfxGetApp()->m_pMainWnd->SetWindowText(fileName);
+
+	CMainFrame * pMain = (CMainFrame *)::AfxGetApp()->m_pMainWnd;
+	pMain->m_wndSplitter.ShowWindow(SW_SHOW);
+	pMain->ShowControlBar(&pMain->m_wndToolBar, true, false);
+	pMain->ShowControlBar(&pMain->m_wndStatusBar, true, false);
+	
 	//::AfxMessageBox(fileName);
 }
 

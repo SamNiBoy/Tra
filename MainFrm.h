@@ -20,7 +20,7 @@ protected: // create from serialization only
 	DECLARE_DYNCREATE(CMainFrame)
 
 // Attributes
-protected:
+public:
 	CSplitterWnd m_wndSplitter;
 public:
 

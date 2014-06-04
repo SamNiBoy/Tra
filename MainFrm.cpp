@@ -110,12 +110,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//this->LoadBarState("abc");
 	m_bSearchShwFlg = 0;
 	m_wndMyToolBar.ShowWindow(SW_HIDE);
+	
 
 	//m_wndStatusBar.SetPaneInfo(0, ID_SEPARATOR, SBPS_NORMAL, 300);
 	m_wndStatusBar.SetPaneInfo(0, ID_INDICATOR_MCMD, SBPS_NORMAL, 600);
 	m_wndStatusBar.SetPaneInfo(1, ID_INDICATOR_ID, SBPS_NORMAL, 150);
 	m_wndStatusBar.SetPaneInfo(2, ID_INDICATOR_TTME, SBPS_NORMAL, 150);
 	m_wndStatusBar.SetPaneInfo(3, ID_INDICATOR_SELLEN, SBPS_NORMAL, 150);
+	m_wndStatusBar.ShowWindow(SW_HIDE);
+	m_wndToolBar.ShowWindow(SW_HIDE);
 
 	
 	return 0;
@@ -134,6 +137,8 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 		m_wndSplitter.DestroyWindow();
 		return FALSE;
 	}
+
+	m_wndSplitter.ShowWindow(SW_HIDE);
 
 	return TRUE;
 }
@@ -396,6 +401,38 @@ void CMainFrame::OnPaint()
 	// TODO: Add your message handler code here
 	CTraDoc* pDoc = (CTraDoc*)this->GetActiveDocument();
 	SetWindowText(pDoc->m_sFileName);
+
+	if (!m_wndSplitter.IsWindowVisible())
+	{
+	    CRect rt;
+		CBrush b;
+		b.CreateSolidBrush(RGB(150,150,150));
+	    this->GetClientRect(&rt);
+		//dc.SetBkColor(0xAAAAAA);
+		dc.FillRect(&rt, &b);
+	    //dc.Rectangle(&rt);
+		
+        CFont font, font2, *pOldFont= NULL;
+
+        font.CreatePointFont(300, "impact", &dc);
+		font2.CreatePointFont(100, "impact", &dc);  
+        pOldFont = dc.SelectObject(&font);   
+        dc.SetBkMode(TRANSPARENT);
+
+		TEXTMETRIC tm;
+	    dc.GetTextMetrics(&tm);
+
+        dc.SetTextColor(0xFFFFFF);
+		
+        dc.TextOut(rt.right/2-tm.tmAveCharWidth*6, rt.bottom/2-tm.tmHeight, "Trace Digger");
+
+		dc.SelectObject(&font2);
+
+		dc.TextOut(rt.right/2+ tm.tmAveCharWidth*3, rt.bottom/2+tm.tmHeight * 1, "Version 2.0");
+        dc.SelectObject(pOldFont);
+        if(pOldFont)
+            font.DeleteObject(); 
+	}
 	// Do not call CFrameWnd::OnPaint() for painting messages
 }
 
