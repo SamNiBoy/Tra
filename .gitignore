@@ -1,1 +1,16 @@
 *.obj
+*.exe
+*.htm
+*.sbr
+*.bsc
+*.pch
+*.idb
+*.pdb
+*.zip
+*.cnt
+*.suo
+*.sln
+*.plg
+*.pmd
+*.ncb
+*.user
