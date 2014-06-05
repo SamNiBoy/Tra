@@ -11,6 +11,7 @@
 #include "GphDlg.h"
 #include "OptMTF.h"
 #include "MainFrm.h"
+#include "ExportDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,6 +45,9 @@ BEGIN_MESSAGE_MAP(CTraDoc, CDocument)
 	ON_COMMAND(IDM_SHOW_GRPH, OnShowGrph)
 	ON_COMMAND(IDM_SHOW_BKMK, OnShowBkmk)
 	ON_UPDATE_COMMAND_UI(IDM_SHOW_BKMK, OnUpdateShowBkmk)
+	ON_COMMAND(ID_FILE_EXPORT, OnFileExport)
+	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_EXPORT, OnUpdateFileExport)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1542,4 +1546,118 @@ bool CTraDoc::IsDosFormat(CString &filename)
 
 	fl.Close();
 	return true;
+}
+
+
+void CTraDoc::OnFileExport() 
+{
+	// TODO: Add your command handler code here
+	CExportDlg dlg;
+
+	dlg.m_nFrm = 1;
+	dlg.m_nTo = m_ObjArrMcmds.GetSize();
+	dlg.m_nMaxID = dlg.m_nTo;
+	//dlg.UpdateData(false);
+
+    if(dlg.DoModal()!=IDOK)
+		return;
+
+	BOOL nodeOnly = dlg.m_bExpNodeOnly;
+	BOOL selectOnly = dlg.m_bSelOnly;
+	long frm = dlg.m_nFrm;
+	long to = dlg.m_nTo;
+	CString filename = dlg.m_sFileName;
+
+	if (selectOnly)
+	{
+		frm = to = this->m_iFocusMcmd;
+	}
+
+    CFile fl;
+	if (!fl.Open(filename, CFile::modeCreate|CFile::modeReadWrite))
+	{
+		//cout<<"Can not open file "<<fileName<<endl;
+		exit(0);
+	}
+
+	if (nodeOnly)
+	{
+		if (frm == to)
+		{
+			CMcmd *p = (CMcmd*)m_ObjArrMcmds[frm-1];
+
+			while(to < m_ObjArrMcmds.GetSize())
+			{
+			    CMcmd *pNxt = (CMcmd*)m_ObjArrMcmds[to];
+				if (pNxt->level <= p->level)
+					break;
+				to++;
+			}
+
+		}
+
+	    for (long i=frm; i<= to; i++)
+		{
+			CMcmd *p = (CMcmd*)m_ObjArrMcmds[i-1];
+			CMcmd *pNxt = NULL;
+			
+			if (i==to)
+				pNxt = NULL;
+			else
+			{
+				pNxt = (CMcmd*)m_ObjArrMcmds[i];
+			}
+			BOOL isLeaf = !pNxt ? TRUE : (pNxt->level <= p->level);
+			CString s = isLeaf ? "    " : "   +";
+
+			int j;
+			for (j=0; j<p->level-1; j++)
+			{
+				fl.Write("    ",4);
+			}
+
+
+
+			fl.Write(p->m_Prefix, p->m_Prefix.GetLength());
+			fl.Write(p->mcmd, p->mcmd.GetLength());
+			fl.Write(p->m_Subfix, p->m_Subfix.GetLength());
+
+			if (!isLeaf)
+			{
+				fl.Write("+",1);
+			}
+
+			fl.Write("\r\n", 2);
+		}
+		fl.Close();
+		AfxMessageBox("Nodes exported successful!", MB_OK|MB_ICONINFORMATION);
+	}
+	else
+	{
+
+		CMcmd *p = (CMcmd*)m_ObjArrMcmds[frm-1];
+		long linFrm = p->beglin;
+
+		p = (CMcmd*)m_ObjArrMcmds[to-1];
+
+		long linTo = p->endlin;
+
+		for (long i=linFrm-1; i<linTo; i++)
+		{
+
+			fl.Write(m_strArrLines[i], m_strArrLines[i].GetLength());
+			fl.Write("\r\n",2);
+
+		}
+
+		fl.Close();
+		
+		AfxMessageBox("Trace exported successful!", MB_OK|MB_ICONINFORMATION);
+	}
+}
+
+void CTraDoc::OnUpdateFileExport(CCmdUI* pCmdUI) 
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->Enable(m_ObjArrMcmds.GetSize() > 0);
 }

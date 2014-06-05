@@ -118,6 +118,7 @@ BEGIN
     POPUP "&File"
     BEGIN
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Export...\tCtrl+E",          ID_FILE_EXPORT
         MENUITEM "&Split...\tCtrl+P",           ID_FILE_SPLIT
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
@@ -159,6 +160,7 @@ IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE
 BEGIN
     "B",            IDM_TOG_BKMK,           VIRTKEY, CONTROL, NOINVERT
     "D",            IDM_CLR_BKMK,           VIRTKEY, SHIFT, NOINVERT
+    "E",            ID_FILE_EXPORT,         VIRTKEY, CONTROL, NOINVERT
     "F",            IDM_FIND_MCMD,          VIRTKEY, CONTROL, NOINVERT
     "G",            IDM_TOGO_BKMK,          VIRTKEY, CONTROL, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
@@ -355,6 +357,26 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,49,53,130,14
 END
 
+IDD_FILE_EXPORT DIALOG DISCARDABLE  0, 0, 247, 93
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Export to..."
+FONT 10, "Tahoma"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,42,63,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,131,63,50,14
+    LTEXT           "Save To:",IDC_STATIC,10,16,32,10
+    EDITTEXT        IDC_EXPORT_FILE_NAME,42,16,131,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Open...",IDC_EXPORT_BTN_OPEN,179,15,46,13
+    CONTROL         "Nodes Only",IDC_EXPORT_CHK_NDOLY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,42,43,56,19
+    LTEXT           "From ID:",IDC_STATIC,11,33,29,12
+    EDITTEXT        IDC_EXPORT_EDT_FRM,42,33,43,12,ES_AUTOHSCROLL
+    LTEXT           "To ID:",IDC_STATIC,108,33,23,12
+    EDITTEXT        IDC_EXPORT_EDT_TO,130,33,43,12,ES_AUTOHSCROLL
+    CONTROL         "Selected Node",IDC_EXPORT_CHK_SELOLY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,131,44,61,19
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -465,6 +487,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 96
     END
+
+    IDD_FILE_EXPORT, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 240
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 86
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -487,6 +517,10 @@ END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    IDE_TOOLBAR_FIND        "Find string from trace file."
+    IDE_TOOLBAR_SERLFT      "Search at left."
     ID_INDICATOR_MCMD       "Command"
     ID_INDICATOR_TTME       "Total Time"
     ID_INDICATOR_ID         "Sequence ID"
@@ -573,14 +607,6 @@ END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    AFX_IDS_SCRESTORE       "Restore the window to normal size"
-    AFX_IDS_SCTASKLIST      "Activate Task List"
-    IDE_TOOLBAR_FIND        "Find string from trace file."
-    IDE_TOOLBAR_SERLFT      "Search at left."
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
     ID_OPT_SETTING          "Set options for analyze trace file."
     IDM_FIND_MCMD           "Search String in Tree view."
     ID_MENUITEM32774        "Find next command with previous cretria."
@@ -614,6 +640,7 @@ BEGIN
     IDM_TOGO_BKMK           "VIsit next book mark."
     IDM_NAV_BKMK            "Show which bookbark you are going to review in status bar"
     ID_FILE_SPLIT           "Split large file to small files."
+    ID_FILE_EXPORT          "Export nodes in left panel or trace to file\\Export."
 END
 
 #endif    // English (U.S.) resources

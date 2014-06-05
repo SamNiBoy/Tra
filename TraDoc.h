@@ -96,6 +96,8 @@ protected:
 	afx_msg void OnShowGrph();
 	afx_msg void OnShowBkmk();
 	afx_msg void OnUpdateShowBkmk(CCmdUI* pCmdUI);
+	afx_msg void OnFileExport();
+	afx_msg void OnUpdateFileExport(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
