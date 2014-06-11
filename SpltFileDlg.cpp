@@ -237,11 +237,28 @@ void CSpltFileDlg::SplitFileWithThread()
 		if (line == "2924 8ed5 D 18:20:36,458 (DefaultSer) [0] Parsed command")
 			idx = idx;
 
+
 		if (idx > 0)
 		{
 			threadId = line.Left(idx);
 			threadId.TrimLeft();
 			threadId.TrimRight();
+			//If find '-' which means it's a date like '2014-06-10', so we should
+			//get thread ID from: "2014-06-10 09:05:53,198 DEBUG [142 fea0] Argument..."
+			if (threadId.Find('-') >=0)
+			{
+				threadId = "";
+				idx = line.Find('[');
+				if (idx >=0 )
+				{
+					int idx2 = line.Find(' ',idx);
+					if (idx2 >=0 && idx2 > idx)
+					{
+						threadId = line.Left(idx2);
+						threadId = threadId.Right(threadId.GetLength() - idx -1);
+					}
+				}
+			}
 		}
 
 		if (threadId.GetLength()<= 0)
