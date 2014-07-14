@@ -227,6 +227,14 @@ void CTraDoc::ExactMcmd()
 			}
 		}
 
+	    // Trim '[]' from the end of line for new moca trace.
+	    if (line.GetLength() >= 2 && 
+			line[line.GetLength() - 2] == '['
+			&& line[line.GetLength() - 1] == ']')
+		{
+		    line = line.Left(line.GetLength() - 2);
+		}
+
         
 		//if (line.Find("Executing SQL: select * from les_var_config where 1=2") >= 0)
 	    //		TRACE(line);
@@ -748,6 +756,8 @@ int CTraDoc::ParseLine(CString line, CString &mcmd)
 
 	//convert to lowcase to do non case match
 	line.MakeLower();
+
+
 	// Check if mcmd header.
 	int cnt = this->m_OptMoca->begs.GetSize();
 	for(long i = 0; i< cnt; i++)
