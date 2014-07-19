@@ -1,8 +1,13 @@
 // TraDoc.cpp : implementation of the CTraDoc class
 //
 
+
 #include "stdafx.h"
 #include "Tra.h"
+
+#include <winsock2.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "TraDoc.h"
 #include "TraView.h"
@@ -12,6 +17,8 @@
 #include "OptMTF.h"
 #include "MainFrm.h"
 #include "ExportDlg.h"
+#include "DlgTransf.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -46,8 +53,9 @@ BEGIN_MESSAGE_MAP(CTraDoc, CDocument)
 	ON_COMMAND(IDM_SHOW_BKMK, OnShowBkmk)
 	ON_UPDATE_COMMAND_UI(IDM_SHOW_BKMK, OnUpdateShowBkmk)
 	ON_COMMAND(ID_FILE_EXPORT, OnFileExport)
-	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
 	ON_UPDATE_COMMAND_UI(ID_FILE_EXPORT, OnUpdateFileExport)
+	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
+	ON_COMMAND(ID_FILE_TRNSF, OnFileTrnsf)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1670,4 +1678,74 @@ void CTraDoc::OnUpdateFileExport(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->Enable(m_ObjArrMcmds.GetSize() > 0);
+}
+
+void CTraDoc::OnFileTrnsf() 
+{
+	// TODO: Add your command handler code here
+	CDlgTransf df;
+	
+	if (df.DoModal() == IDOK)
+	{
+
+		if (m_sFileName.GetLength() > 0)
+		{
+			WSAData wsaData;
+			SOCKET servSock;
+			char msg[] = "Hello, this is from server.";
+
+			 SOCKADDR_IN clnAdr;
+
+			 if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0)
+			 {
+				 AfxMessageBox("Initial socket library error!", MB_OK|MB_ICONERROR);
+				 return;
+			 }
+
+			 servSock = socket(AF_INET, SOCK_DGRAM, 0);
+
+			 if (servSock == INVALID_SOCKET)
+			 {
+				 AfxMessageBox("Can not create server socket!", MB_OK|MB_ICONERROR);
+				 return;
+			 }
+/*
+             SOCKADDR_IN servAdr;
+			 memset(&servAdr, 0, sizeof(servAdr));
+
+			 servAdr.sin_family = AF_INET;
+			 servAdr.sin_addr.s_addr = htonl(INADDR_ANY);
+			 servAdr.sin_port = htons(33);
+
+			 if(bind(servSock, (SOCKADDR*) &servAdr, sizeof(servAdr)) == SOCKET_ERROR)
+			 {
+
+				 AfxMessageBox("Can not bind socket to port 33!", MB_OK|MB_ICONERROR);
+				 return;
+			 }
+*/
+			 CString ip;
+			 ip.Format("%d.%d.%d.%d", df.a1,df.a2,df.a3,df.a4);
+
+			 DWORD IPPP=inet_addr(ip);
+
+			 clnAdr.sin_family = AF_INET;
+			 clnAdr.sin_addr.s_addr = IPPP;
+			 clnAdr.sin_port = htons(34);
+
+			 //ip.Format("Sending to [%ld]", ntohl(clnAdr.sin_addr.s_addr));
+
+			 //AfxMessageBox(ip);
+
+			 sendto(servSock, 
+				    msg,
+					strlen(msg),
+					0,
+					(SOCKADDR *)&clnAdr,
+					sizeof clnAdr);
+
+			 closesocket(servSock);
+			 return;
+		}
+	}
 }

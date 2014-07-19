@@ -24,6 +24,7 @@
 #define IDI_ICN_BKMK                    154
 #define IDD_DLG_SPLT_FILE               157
 #define IDD_FILE_EXPORT                 158
+#define IDD_DLG_TRANSF                  159
 #define IDC_LST_BEGIN                   1004
 #define IDC_LST_END                     1005
 #define IDC_EDT_BEGIN                   1006
@@ -80,6 +81,7 @@
 #define IDC_EXPORT_EDT_FRM              1058
 #define IDC_EXPORT_EDT_TO               1059
 #define IDC_EXPORT_CHK_SELOLY           1060
+#define IDC_IPADDR                      1061
 #define ID_OPT_SETTING                  32771
 #define IDM_FIND_MCMD                   32772
 #define ID_MENUITEM32774                32774
@@ -112,6 +114,7 @@
 #define IDM_NAV_BKMK                    32807
 #define ID_FILE_SPLIT                   32808
 #define ID_FILE_EXPORT                  32809
+#define ID_FILE_TRNSF                   32810
 #define IDE_TOOLBAR_FIND                61204
 #define IDR_MYTOOLBAR                   61205
 #define IDE_TOOLBAR_SERLFT              61205
@@ -125,9 +128,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        159
-#define _APS_NEXT_COMMAND_VALUE         32810
-#define _APS_NEXT_CONTROL_VALUE         1059
+#define _APS_NEXT_RESOURCE_VALUE        160
+#define _APS_NEXT_COMMAND_VALUE         32811
+#define _APS_NEXT_CONTROL_VALUE         1062
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

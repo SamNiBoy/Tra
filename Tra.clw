@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=COptDlg
+LastClass=CMainFrame
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "tra.h"
 LastPage=0
 
-ClassCount=17
+ClassCount=18
 Class1=CBtnSchLft
 Class2=CColorDlg
 Class3=CEditFinder
@@ -26,17 +26,17 @@ Class14=CAboutDlg
 Class15=CTraDoc
 Class16=CTraView
 
-ResourceCount=21
-Resource1=IDD_DLG_GRAPH
-Resource2=IDD_IN_PROGRESS
+ResourceCount=23
+Resource1=IDD_ABOUTBOX
+Resource2=IDR_MAINFRAME
 Resource3=IDR_TOOLBAR
-Resource4=IDR_MAINFRAME
-Resource5=IDD_OPT_MTF
-Resource6=IDD_FIND_LIST
-Resource7=IDD_OPT_MOCA
-Resource8=IDD_OPT_COLOR
+Resource4=IDD_DLG_GRAPH
+Resource5=IDD_OPT_MOCA
+Resource6=IDD_FILE_EXPORT
+Resource7=IDD_OPT_COLOR
+Resource8=IDD_DLG_FIND
 Resource9=IDD_OPT_COLOR (English (U.S.))
-Resource10=IDD_ABOUTBOX
+Resource10=IDD_OPT_MTF
 Resource11=IDD_OPT_MOCA (English (U.S.))
 Resource12=IDR_TOOLBAR (English (U.S.))
 Resource13=IDD_ABOUTBOX (English (U.S.))
@@ -46,9 +46,12 @@ Resource16=IDR_MAINFRAME (English (U.S.))
 Resource17=IDD_IN_PROGRESS (English (U.S.))
 Resource18=IDD_FIND_LIST (English (U.S.))
 Resource19=IDD_OPT_MTF (English (U.S.))
-Resource20=IDD_DLG_FIND
+Resource20=IDD_DLG_SPLT_FILE
 Class17=CSpltFileDlg
-Resource21=IDD_DLG_SPLT_FILE
+Resource21=IDD_FIND_LIST
+Resource22=IDD_IN_PROGRESS
+Class18=CDlgTransf
+Resource23=IDD_DLG_TRANSF
 
 [CLS:CBtnSchLft]
 Type=0
@@ -111,7 +114,7 @@ Type=0
 BaseClass=CFrameWnd
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
-LastObject=ID_FILE_SPLIT
+LastObject=CMainFrame
 Filter=T
 VirtualFilter=fWC
 
@@ -272,40 +275,43 @@ CommandCount=1
 Type=1
 Class=CMainFrame
 Command1=ID_FILE_OPEN
-Command2=ID_FILE_SPLIT
-Command3=ID_APP_EXIT
-Command4=IDM_PERFORM_ALL
-Command5=IDM_PERFORM_SEL
-Command6=IDM_SHOW_PARMCMD
-Command7=IDM_SHOW_GRPH
-Command8=IDM_TOG_BKMK
-Command9=IDM_TOGO_BKMK
-Command10=IDM_CLR_BKMK
-Command11=IDM_TOG_MCMD
-Command12=ID_OPT_SETTING
-Command13=IDM_VIEW_TOOLBAR
-Command14=ID_VIEW_TOOLBAR
-Command15=ID_VIEW_STATUS_BAR
-Command16=ID_HELP
-Command17=ID_APP_ABOUT
-CommandCount=17
+Command2=ID_FILE_EXPORT
+Command3=ID_FILE_SPLIT
+Command4=ID_FILE_TRNSF
+Command5=ID_APP_EXIT
+Command6=IDM_PERFORM_ALL
+Command7=IDM_PERFORM_SEL
+Command8=IDM_SHOW_PARMCMD
+Command9=IDM_SHOW_GRPH
+Command10=IDM_TOG_BKMK
+Command11=IDM_TOGO_BKMK
+Command12=IDM_CLR_BKMK
+Command13=IDM_TOG_MCMD
+Command14=ID_OPT_SETTING
+Command15=IDM_VIEW_TOOLBAR
+Command16=ID_VIEW_TOOLBAR
+Command17=ID_VIEW_STATUS_BAR
+Command18=ID_HELP
+Command19=ID_APP_ABOUT
+CommandCount=19
 
 [ACL:IDR_MAINFRAME]
 Type=1
 Class=?
 Command1=IDM_TOG_BKMK
 Command2=IDM_CLR_BKMK
-Command3=IDM_FIND_MCMD
-Command4=IDM_TOGO_BKMK
-Command5=ID_FILE_OPEN
-Command6=ID_FILE_SPLIT
-Command7=IDM_REFRESH_VIEW
-Command8=IDM_SHOW_BKMK
-Command9=IDM_FIND_NXTMCMD
-Command10=ID_HIDE_APP
-Command11=ID_SHOW_APP
-Command12=IDM_TOG_MCMD
-CommandCount=12
+Command3=ID_FILE_EXPORT
+Command4=IDM_FIND_MCMD
+Command5=IDM_TOGO_BKMK
+Command6=ID_FILE_OPEN
+Command7=ID_FILE_SPLIT
+Command8=IDM_REFRESH_VIEW
+Command9=IDM_SHOW_BKMK
+Command10=IDM_FIND_NXTMCMD
+Command11=ID_HIDE_APP
+Command12=ID_SHOW_APP
+Command13=IDM_TOG_MCMD
+CommandCount=13
 
 [TB:IDR_MAINFRAME (English (U.S.))]
 Type=1
@@ -528,4 +534,38 @@ BaseClass=CDialog
 Filter=D
 LastObject=CSpltFileDlg
 VirtualFilter=dWC
+
+[DLG:IDD_FILE_EXPORT]
+Type=1
+Class=?
+ControlCount=11
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_STATIC,static,1342308352
+Control4=IDC_EXPORT_FILE_NAME,edit,1350631552
+Control5=IDC_EXPORT_BTN_OPEN,button,1342242816
+Control6=IDC_EXPORT_CHK_NDOLY,button,1342242819
+Control7=IDC_STATIC,static,1342308352
+Control8=IDC_EXPORT_EDT_FRM,edit,1350631552
+Control9=IDC_STATIC,static,1342308352
+Control10=IDC_EXPORT_EDT_TO,edit,1350631552
+Control11=IDC_EXPORT_CHK_SELOLY,button,1342242819
+
+[DLG:IDD_DLG_TRANSF]
+Type=1
+Class=CDlgTransf
+ControlCount=4
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_STATIC,static,1342308352
+Control4=IDC_IPADDR,SysIPAddress32,1342242816
+
+[CLS:CDlgTransf]
+Type=0
+HeaderFile=DlgTransf.h
+ImplementationFile=DlgTransf.cpp
+BaseClass=CDialog
+Filter=D
+VirtualFilter=dWC
+LastObject=CDlgTransf
 

@@ -36,6 +36,7 @@ CTraApp::CTraApp()
 {
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
+
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -107,7 +108,7 @@ BOOL CTraApp::InitInstance()
 
 	//this->SetDialogBkColor(RGB(100,100,100), RGB(255,0,0));
 
-	return TRUE;
+	return ((CMainFrame*) m_pMainWnd)->StartThreadForAcceptFile();
 }
 
 
@@ -360,3 +361,4 @@ CDocument* CTraApp::OpenDocumentFile(LPCTSTR lpszFileName)
 	pDoc->OpenFile(filename);
 	return pDoc;
 }
+

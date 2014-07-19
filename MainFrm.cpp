@@ -3,13 +3,14 @@
 
 #include "stdafx.h"
 #include "Tra.h"
+#include <winsock2.h>
 
 #include "MainFrm.h"
 #include "LeftView.h"
 #include "TraView.h"
 #include "TraDoc.h"
 #include "SpltFileDlg.h"
-
+#include "process.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,6 +42,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_DROPFILES()
 	ON_WM_PAINT()
 	ON_COMMAND(ID_FILE_SPLIT, OnFileSplit)
+	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -58,7 +60,6 @@ static UINT indicators[] =
 CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
-	
 }
 
 CMainFrame::~CMainFrame()
@@ -442,4 +443,80 @@ void CMainFrame::OnFileSplit()
     CSpltFileDlg *p = new CSpltFileDlg;
 	p->DoModal();
 	delete p;
+}
+
+unsigned WINAPI AcceptingFileTransfer(void *arg) 
+{
+	// TODO: Add your message handler code here and/or call default
+
+		static init_flg = 0;
+
+		SOCKET clientSock;
+		char msg[1024];
+		int sl;
+		int servSz;
+
+		SOCKADDR_IN servAdr, clientAdr;
+
+		if (init_flg == 0)
+		{
+		    WSADATA wsaData;
+
+		    if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0)
+			{
+			    AfxMessageBox("Can not initialize socket!", MB_OK|MB_ICONERROR);
+			    return -1;
+			}
+			init_flg = 1;
+		}
+
+		clientSock = socket(AF_INET, SOCK_DGRAM, 0);
+
+		if(clientSock == INVALID_SOCKET)
+		{
+		    AfxMessageBox("Can not create client socket!", MB_OK|MB_ICONERROR);
+		    return -1;
+		}
+
+		memset(&clientAdr, 0, sizeof(clientAdr));
+
+		clientAdr.sin_family = AF_INET;
+		clientAdr.sin_addr.s_addr = htonl(INADDR_ANY);
+		clientAdr.sin_port = htons(34);
+
+		if (bind(clientSock, (SOCKADDR*) &clientAdr, sizeof(clientAdr)) == SOCKET_ERROR)
+		{
+			AfxMessageBox("Can not bind client socket to 34!", MB_OK|MB_ICONERROR);
+		    return TRUE;
+		}
+
+		memset(&servAdr, 0, sizeof(servAdr));
+
+		servSz = sizeof(servAdr);
+
+		/*CString s;
+		s.Format("ready to recvfrom [%ld]", ntohl(clientAdr.sin_addr.s_addr));
+
+		AfxMessageBox(s);*/
+		sl = recvfrom(clientSock, msg, 1024, 0, (SOCKADDR*) &servAdr, &servSz);
+
+		if(sl>0)
+		{
+			CString s;
+			s.Format("Received:[%s]", msg);
+			AfxMessageBox(s);
+		}
+
+		closesocket(clientSock);
+
+		AfxMessageBox("ready to return");
+
+		return 0;
+}
+
+BOOLEAN CMainFrame::StartThreadForAcceptFile()
+{
+	//SetTimer(TimerForAcceptFile, 1000, NULL);
+	_beginthreadex(NULL, 0, AcceptingFileTransfer, NULL, 0, NULL);
+	return TRUE;
 }

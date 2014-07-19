@@ -26,7 +26,7 @@ public:
 
 // Operations
 public:
-
+	BOOLEAN StartThreadForAcceptFile();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMainFrame)

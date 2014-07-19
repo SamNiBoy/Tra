@@ -98,6 +98,7 @@ protected:
 	afx_msg void OnUpdateShowBkmk(CCmdUI* pCmdUI);
 	afx_msg void OnFileExport();
 	afx_msg void OnUpdateFileExport(CCmdUI* pCmdUI);
+	afx_msg void OnFileTrnsf();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:

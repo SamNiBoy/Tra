@@ -23,6 +23,7 @@
 class CTraApp : public CWinApp
 {
 public:
+
 	void ReadOptionsFromINI(CTraDoc * pDoc);
 	void WriteOptionsToINI(CTraDoc *);
 	CTraApp();
