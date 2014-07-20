@@ -71,6 +71,7 @@ protected:
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 	afx_msg void OnPaint();
 	afx_msg void OnFileSplit();
+	afx_msg LRESULT OnOpenTrnsfFile(WPARAM wParam, LPARAM lParam);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

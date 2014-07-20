@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_PAINT()
 	ON_COMMAND(ID_FILE_SPLIT, OnFileSplit)
 	ON_WM_TIMER()
+	ON_MESSAGE(WM_OPENTRANFILE, OnOpenTrnsfFile)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -54,6 +55,19 @@ static UINT indicators[] =
 	ID_INDICATOR_SELLEN,
 };
 
+LRESULT CMainFrame::OnOpenTrnsfFile(WPARAM wParam, LPARAM lParam)
+{
+	CTraDoc *pDoc = (CTraDoc*) this->GetActiveDocument();
+	if(pDoc->m_sFileName.GetLength() <= 0)
+	{
+		AfxMessageBox("No File Name for opening");
+		return 0;
+	}
+
+	pDoc->OpenFile(pDoc->m_sFileName);
+
+	return 0;
+}
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
 
@@ -453,8 +467,10 @@ unsigned WINAPI AcceptingFileTransfer(void *arg)
 
 		SOCKET clientSock;
 		char msg[1024];
-		int sl;
+		long sl;
 		int servSz;
+
+		REQACK action;
 
 		SOCKADDR_IN servAdr, clientAdr;
 
@@ -494,19 +510,115 @@ unsigned WINAPI AcceptingFileTransfer(void *arg)
 
 		servSz = sizeof(servAdr);
 
-		/*CString s;
-		s.Format("ready to recvfrom [%ld]", ntohl(clientAdr.sin_addr.s_addr));
+		//CString s;
+		//s.Format("ready to recvfrom [%ld]", ntohl(clientAdr.sin_addr.s_addr));
 
-		AfxMessageBox(s);*/
+		///AfxMessageBox(s);
+AGAIN:
+		memset(msg, 0, sizeof msg);
+
 		sl = recvfrom(clientSock, msg, 1024, 0, (SOCKADDR*) &servAdr, &servSz);
 
 		if(sl>0)
 		{
 			CString s;
-			s.Format("Received:[%s]", msg);
-			AfxMessageBox(s);
-		}
+			s.Format("[%s] send file %s to you, accept?", inet_ntoa(servAdr.sin_addr), msg+4);
+			if (AfxMessageBox(s, MB_YESNO|MB_ICONQUESTION) != IDYES)
+			{
+				action = REFUSE;
+				//memset(msg, action, sizeof action);
+				*((REQACK*)msg) = action;
+			    sendto(clientSock, 
+			       msg,
+			       sizeof action,
+				   0,
+				   (SOCKADDR *)&servAdr,
+			       servSz);
+			}
+			else
+			{
+				action = ACPT;
+				*((REQACK*)msg) = action;
+			    sendto(clientSock, 
+			       msg,
+			       sizeof action,
+				   0,
+				   (SOCKADDR *)&servAdr,
+			       servSz);
 
+			//	AfxMessageBox("Begin accept file!");
+
+				CStdioFile f;
+
+				TCHAR szFilters[]= _T("Moca trace files (*.log)|*.log|Mtf trace files (*.out)|*.out|All files (*.*)|*.*||");
+	            CFileDialog dlg(FALSE, _T("log"), _T("*.log"), OFN_HIDEREADONLY,szFilters);
+
+	            if(dlg.DoModal()!=IDOK)
+		        goto END;
+
+	             CString fn = dlg.GetPathName();
+				 if (!f.Open(fn, CFile::modeCreate|CFile::modeWrite))
+				 {
+					 AfxMessageBox("Can not create file for transfer!", MB_OK|MB_ICONERROR);
+					 goto END;
+				 }
+				 else {
+					 sl = recvfrom(clientSock,
+						           msg,
+								   1024,
+								   0,
+								   (SOCKADDR*) &servAdr,
+								   &servSz);
+					 long fsz = 0;
+
+					 if (sl > 0)
+					 {
+						 fsz = *((long*) msg);
+					 }
+
+					 while(fsz > 0)
+					 {
+						 msg[sl] = 0;
+						 
+					     sl = recvfrom(clientSock,
+						           msg,
+								   1024,
+								   0,
+								   (SOCKADDR*) &servAdr,
+								   &servSz);
+						 if (sl > 0)
+						 {
+							 f.WriteString(msg);
+							 f.WriteString("\r\n");
+						     fsz = fsz - (sl + 2);
+						 }
+						 else 
+							 break;
+						 //TRACE("[%ld, %d] msg:%s\n",  fsz, sl, msg);
+					 }
+					 f.Close();
+					 s.Format("Open file [%s] with trace digger?", fn);
+			         if (AfxMessageBox(s, MB_YESNO|MB_ICONQUESTION) == IDYES)
+					 {
+						 
+						 CMainFrame *pMain=(CMainFrame*)AfxGetApp()->m_pMainWnd;
+
+						 CView * active = pMain->GetActiveView();
+
+						 CTraDoc *pDoc = (CTraDoc*) active->GetDocument();
+
+						 pDoc->m_sFileName = fn;
+
+						 pMain->PostMessage(WM_OPENTRANFILE);
+						 //pDoc->OpenFile(fn);
+						 //AfxGetApp()->PostThreadMessage(WM_OPENTRANFILE, 0, 0);
+
+					 }
+				 }
+			}
+			goto AGAIN;
+		}
+END:
 		closesocket(clientSock);
 
 		AfxMessageBox("ready to return");

@@ -8,6 +8,7 @@
 #include <winsock2.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <process.h>
 
 #include "TraDoc.h"
 #include "TraView.h"
@@ -28,6 +29,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CTraDoc
+
 
 IMPLEMENT_DYNCREATE(CTraDoc, CDocument)
 
@@ -1680,52 +1682,45 @@ void CTraDoc::OnUpdateFileExport(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_ObjArrMcmds.GetSize() > 0);
 }
 
-void CTraDoc::OnFileTrnsf() 
+typedef struct para
+{
+	CTraDoc *p;
+	BYTE a1;
+	BYTE a2;
+	BYTE a3;
+	BYTE a4;
+} PARAFT;
+
+PARAFT paraft;
+
+unsigned WINAPI FileTrnsf(void *arg) 
 {
 	// TODO: Add your command handler code here
-	CDlgTransf df;
-	
-	if (df.DoModal() == IDOK)
-	{
 
-		if (m_sFileName.GetLength() > 0)
+	PARAFT *p = (PARAFT*) arg;
+		if (p->p->m_sFileName.GetLength() > 0)
 		{
-			WSAData wsaData;
 			SOCKET servSock;
-			char msg[] = "Hello, this is from server.";
+			REQACK action = TRANFILE;
+			char msg[1024];
+
+			int clnSz;
 
 			 SOCKADDR_IN clnAdr;
-
-			 if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0)
-			 {
-				 AfxMessageBox("Initial socket library error!", MB_OK|MB_ICONERROR);
-				 return;
-			 }
 
 			 servSock = socket(AF_INET, SOCK_DGRAM, 0);
 
 			 if (servSock == INVALID_SOCKET)
 			 {
 				 AfxMessageBox("Can not create server socket!", MB_OK|MB_ICONERROR);
-				 return;
+				 return -1;
 			 }
-/*
-             SOCKADDR_IN servAdr;
-			 memset(&servAdr, 0, sizeof(servAdr));
 
-			 servAdr.sin_family = AF_INET;
-			 servAdr.sin_addr.s_addr = htonl(INADDR_ANY);
-			 servAdr.sin_port = htons(33);
-
-			 if(bind(servSock, (SOCKADDR*) &servAdr, sizeof(servAdr)) == SOCKET_ERROR)
-			 {
-
-				 AfxMessageBox("Can not bind socket to port 33!", MB_OK|MB_ICONERROR);
-				 return;
-			 }
-*/
 			 CString ip;
-			 ip.Format("%d.%d.%d.%d", df.a1,df.a2,df.a3,df.a4);
+			 //ip.Format("%d.%d.%d.%d", 127,0,0,1);
+			 ip.Format("%d.%d.%d.%d", p->a1,p->a2,p->a3,p->a4);
+
+			 //AfxMessageBox(ip);
 
 			 DWORD IPPP=inet_addr(ip);
 
@@ -1733,19 +1728,100 @@ void CTraDoc::OnFileTrnsf()
 			 clnAdr.sin_addr.s_addr = IPPP;
 			 clnAdr.sin_port = htons(34);
 
-			 //ip.Format("Sending to [%ld]", ntohl(clnAdr.sin_addr.s_addr));
+			 memcpy(msg, &action, sizeof action);
+			 memcpy(msg+sizeof action, (LPCTSTR)p->p->m_sFileName, p->p->m_sFileName.GetLength());
 
-			 //AfxMessageBox(ip);
+			 //strcpy(msg, "hello, sam");
 
 			 sendto(servSock, 
 				    msg,
-					strlen(msg),
+					sizeof action + p->p->m_sFileName.GetLength(),
 					0,
-					(SOCKADDR *)&clnAdr,
+					(SOCKADDR*)&clnAdr,
 					sizeof clnAdr);
 
-			 closesocket(servSock);
-			 return;
+			 clnSz = sizeof clnAdr;
+
+			 //Sleep(5000);
+
+			 memset(msg, 0, sizeof msg);
+			
+			 recvfrom(servSock,
+				      msg,
+					  1024,
+					  0,
+					  (SOCKADDR*) &clnAdr,
+					  &clnSz);
+
+			action = *((REQACK*)msg);
+
+			 if (action == REFUSE)
+			 {
+				 CString msg;
+				 msg.Format("Remote ip[%s] refused your request!", inet_ntoa(clnAdr.sin_addr));
+	
+				 AfxMessageBox(msg, MB_OK|MB_ICONINFORMATION);
+				 return 0;
+			 }
+			 else {
+				 AfxMessageBox("Now start file transferring");
+
+				 CStdioFile f;
+
+				 if (!f.Open(p->p->m_sFileName, CFile::modeRead))
+				 {
+					 AfxMessageBox("Can not open file to transfer!", MB_OK|MB_ICONERROR);
+					 return -1;
+				 }
+				 else {
+
+					 CString line;
+					 DWORD fsz = f.GetLength();
+
+					 *((DWORD*)msg) = fsz;
+
+					 sendto(servSock, 
+				                msg,
+					            sizeof DWORD,
+					            0,
+					            (SOCKADDR*)&clnAdr,
+					            sizeof clnAdr);
+
+					 while(f.ReadString(line))
+					 {
+
+					     strcpy(msg, (LPCTSTR) line);
+			             sendto(servSock, 
+				                msg,
+					            strlen(msg),
+					            0,
+					            (SOCKADDR*)&clnAdr,
+					            sizeof clnAdr);
+					 }
+					 f.Close();
+					 shutdown(servSock, SD_SEND);
+				 }
+
+			 }
+
+			 //closesocket(servSock);
+			 return 0;
 		}
+	return 0;
+}
+
+void CTraDoc::OnFileTrnsf() 
+{
+	CDlgTransf df;
+	
+	if (df.DoModal() == IDOK)
+	{
+		paraft.p = this;
+		paraft.a1 = df.a1;
+		paraft.a2 = df.a2;
+		paraft.a3 = df.a3;
+		paraft.a4 = df.a4;
+
+	    _beginthreadex(NULL, 0, FileTrnsf, &paraft, 0, NULL);
 	}
 }

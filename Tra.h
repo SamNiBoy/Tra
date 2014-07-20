@@ -15,6 +15,15 @@
 #include "resource.h"       // main symbols
 #include "tradoc.h"
 
+//this enum is used for socket conversation word.
+typedef enum REQACK{
+	TRANFILE,// require trnasfer file.
+	ACPT,//Accept
+	REFUSE//REFUSE
+} REQACT;
+
+#define WM_OPENTRANFILE (WM_USER + 100)
+
 /////////////////////////////////////////////////////////////////////////////
 // CTraApp:
 // See Tra.cpp for the implementation of this class
