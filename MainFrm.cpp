@@ -463,10 +463,8 @@ unsigned WINAPI AcceptingFileTransfer(void *arg)
 {
 	// TODO: Add your message handler code here and/or call default
 
-		static init_flg = 0;
-
 		SOCKET clientSock;
-		char msg[1024];
+		char msg[1024], line[1024];
 		long sl;
 		int servSz;
 
@@ -474,19 +472,16 @@ unsigned WINAPI AcceptingFileTransfer(void *arg)
 
 		SOCKADDR_IN servAdr, clientAdr;
 
-		if (init_flg == 0)
-		{
-		    WSADATA wsaData;
+		WSADATA wsaData;
 
-		    if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0)
-			{
-			    AfxMessageBox("Can not initialize socket!", MB_OK|MB_ICONERROR);
-			    return -1;
-			}
-			init_flg = 1;
+		if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0)
+		{
+			AfxMessageBox("Can not initialize socket!", MB_OK|MB_ICONERROR);
+			return -1;
 		}
 
-		clientSock = socket(AF_INET, SOCK_DGRAM, 0);
+
+		clientSock = socket(AF_INET, SOCK_STREAM, 0);
 
 		if(clientSock == INVALID_SOCKET)
 		{
@@ -503,7 +498,14 @@ unsigned WINAPI AcceptingFileTransfer(void *arg)
 		if (bind(clientSock, (SOCKADDR*) &clientAdr, sizeof(clientAdr)) == SOCKET_ERROR)
 		{
 			AfxMessageBox("Can not bind client socket to 34!", MB_OK|MB_ICONERROR);
-		    return TRUE;
+		    return 0;
+		}
+
+
+    	if (listen(clientSock, 5) == SOCKET_ERROR)
+		{
+	    	AfxMessageBox("Listen error");
+	    	return 0;
 		}
 
 		memset(&servAdr, 0, sizeof(servAdr));
@@ -517,7 +519,13 @@ unsigned WINAPI AcceptingFileTransfer(void *arg)
 AGAIN:
 		memset(msg, 0, sizeof msg);
 
-		sl = recvfrom(clientSock, msg, 1024, 0, (SOCKADDR*) &servAdr, &servSz);
+		SOCKET server;
+		
+		server = accept(clientSock, (SOCKADDR*) &servAdr, &servSz);
+
+		//sl = recvfrom(clientSock, msg, 1024, 0, (SOCKADDR*) &servAdr, &servSz);
+
+		sl = recv(server, msg, 1024, 0);
 
 		if(sl>0)
 		{
@@ -528,24 +536,13 @@ AGAIN:
 				action = REFUSE;
 				//memset(msg, action, sizeof action);
 				*((REQACK*)msg) = action;
-			    sendto(clientSock, 
+			    send(server, 
 			       msg,
 			       sizeof action,
-				   0,
-				   (SOCKADDR *)&servAdr,
-			       servSz);
+				   0);
 			}
 			else
 			{
-				action = ACPT;
-				*((REQACK*)msg) = action;
-			    sendto(clientSock, 
-			       msg,
-			       sizeof action,
-				   0,
-				   (SOCKADDR *)&servAdr,
-			       servSz);
-
 			//	AfxMessageBox("Begin accept file!");
 
 				CStdioFile f;
@@ -563,40 +560,45 @@ AGAIN:
 					 goto END;
 				 }
 				 else {
-					 sl = recvfrom(clientSock,
+
+				    action = ACPT;
+				    *((REQACK*)msg) = action;
+			        send(server, 
+			               msg,
+			               sizeof action,
+				           0);
+
+					memset(line, 0, sizeof line);
+
+					int k = 0;
+
+					 while(recv(server, msg, 1024, MSG_PEEK) > 0)
+					 {
+					     sl = recv(server,
 						           msg,
 								   1024,
-								   0,
-								   (SOCKADDR*) &servAdr,
-								   &servSz);
-					 long fsz = 0;
+								   0);
+						 //msg[sl] = 0;
 
-					 if (sl > 0)
-					 {
-						 fsz = *((long*) msg);
-					 }
+						 int j = 0;
 
-					 while(fsz > 0)
-					 {
-						 msg[sl] = 0;
-						 
-					     sl = recvfrom(clientSock,
-						           msg,
-								   1024,
-								   0,
-								   (SOCKADDR*) &servAdr,
-								   &servSz);
-						 if (sl > 0)
+						 while(msg[j] && j < sl)
+							 line[k++] = msg[j++];
+
+						 if (j < sl)
 						 {
-							 f.WriteString(msg);
-							 f.WriteString("\r\n");
-						     fsz = fsz - (sl + 2);
+						     line[k] = 0;
+						     k = 0;
+						     f.WriteString(line);
+
+						     while(j < sl)
+							     line[k++] = msg[j++];
 						 }
-						 else 
-							 break;
-						 //TRACE("[%ld, %d] msg:%s\n",  fsz, sl, msg);
 					 }
 					 f.Close();
+					 closesocket(server);
+
+
 					 s.Format("Open file [%s] with trace digger?", fn);
 			         if (AfxMessageBox(s, MB_YESNO|MB_ICONQUESTION) == IDYES)
 					 {

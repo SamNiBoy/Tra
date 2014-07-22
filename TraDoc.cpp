@@ -1708,7 +1708,7 @@ unsigned WINAPI FileTrnsf(void *arg)
 
 			 SOCKADDR_IN clnAdr;
 
-			 servSock = socket(AF_INET, SOCK_DGRAM, 0);
+			 servSock = socket(AF_INET, SOCK_STREAM, 0);
 
 			 if (servSock == INVALID_SOCKET)
 			 {
@@ -1728,30 +1728,32 @@ unsigned WINAPI FileTrnsf(void *arg)
 			 clnAdr.sin_addr.s_addr = IPPP;
 			 clnAdr.sin_port = htons(34);
 
+			 clnSz = sizeof clnAdr;
+
+			 if (connect(servSock, (SOCKADDR*) &clnAdr,  clnSz) == SOCKET_ERROR)
+			 {
+		        AfxMessageBox("Connect error");
+	            return -1;
+			 }
+
 			 memcpy(msg, &action, sizeof action);
 			 memcpy(msg+sizeof action, (LPCTSTR)p->p->m_sFileName, p->p->m_sFileName.GetLength());
 
 			 //strcpy(msg, "hello, sam");
 
-			 sendto(servSock, 
+			 send(servSock, 
 				    msg,
 					sizeof action + p->p->m_sFileName.GetLength(),
-					0,
-					(SOCKADDR*)&clnAdr,
-					sizeof clnAdr);
-
-			 clnSz = sizeof clnAdr;
+					0);
 
 			 //Sleep(5000);
 
 			 memset(msg, 0, sizeof msg);
 			
-			 recvfrom(servSock,
+			 recv(servSock,
 				      msg,
 					  1024,
-					  0,
-					  (SOCKADDR*) &clnAdr,
-					  &clnSz);
+					  0);
 
 			action = *((REQACK*)msg);
 
@@ -1776,30 +1778,18 @@ unsigned WINAPI FileTrnsf(void *arg)
 				 else {
 
 					 CString line;
-					 DWORD fsz = f.GetLength();
-
-					 *((DWORD*)msg) = fsz;
-
-					 sendto(servSock, 
-				                msg,
-					            sizeof DWORD,
-					            0,
-					            (SOCKADDR*)&clnAdr,
-					            sizeof clnAdr);
 
 					 while(f.ReadString(line))
 					 {
 
 					     strcpy(msg, (LPCTSTR) line);
-			             sendto(servSock, 
+			             send(servSock, 
 				                msg,
-					            strlen(msg),
-					            0,
-					            (SOCKADDR*)&clnAdr,
-					            sizeof clnAdr);
+					            strlen(msg) + 1,
+					            0);
 					 }
 					 f.Close();
-					 shutdown(servSock, SD_SEND);
+					 closesocket(servSock);
 				 }
 
 			 }
