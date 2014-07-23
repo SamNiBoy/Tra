@@ -464,7 +464,7 @@ unsigned WINAPI AcceptingFileTransfer(void *arg)
 	// TODO: Add your message handler code here and/or call default
 
 		SOCKET clientSock;
-		char msg[1024], line[1024];
+		char msg[1024];
 		long sl;
 		int servSz;
 
@@ -568,35 +568,17 @@ AGAIN:
 			               sizeof action,
 				           0);
 
-					memset(line, 0, sizeof line);
-
-					int k = 0;
-
 					 while(recv(server, msg, 1024, MSG_PEEK) > 0)
 					 {
 					     sl = recv(server,
 						           msg,
 								   1024,
 								   0);
-						 //msg[sl] = 0;
 
-						 int j = 0;
-
-						 while(msg[j] && j < sl)
-							 line[k++] = msg[j++];
-
-						 if (j < sl)
-						 {
-						     line[k] = 0;
-						     k = 0;
-						     f.WriteString(line);
-
-						     while(j < sl)
-							     line[k++] = msg[j++];
-						 }
+						 f.WriteString(msg);
 					 }
 					 f.Close();
-					 closesocket(server);
+					 //closesocket(server);
 
 
 					 s.Format("Open file [%s] with trace digger?", fn);

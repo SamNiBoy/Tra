@@ -1785,11 +1785,11 @@ unsigned WINAPI FileTrnsf(void *arg)
 					     strcpy(msg, (LPCTSTR) line);
 			             send(servSock, 
 				                msg,
-					            strlen(msg) + 1,
+					            strlen(msg),
 					            0);
 					 }
 					 f.Close();
-					 closesocket(servSock);
+					 //closesocket(servSock);
 				 }
 
 			 }
