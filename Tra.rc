@@ -120,7 +120,7 @@ BEGIN
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM "&Export...\tCtrl+E",          ID_FILE_EXPORT
         MENUITEM "&Split...\tCtrl+P",           ID_FILE_SPLIT
-        MENUITEM "Transfer... \tCtrl+T",        ID_FILE_TRNSF
+        MENUITEM "Share Trace... \tCtrl+T",     ID_FILE_TRNSF
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
     POPUP "&Operation"

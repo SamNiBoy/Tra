@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Tra.h"
-#include <winsock2.h>
+//#include <winsock2.h>
 
 #include "MainFrm.h"
 #include "LeftView.h"
@@ -74,6 +74,8 @@ LRESULT CMainFrame::OnOpenTrnsfFile(WPARAM wParam, LPARAM lParam)
 CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
+
+
 }
 
 CMainFrame::~CMainFrame()
@@ -610,9 +612,37 @@ END:
 		return 0;
 }
 
-BOOLEAN CMainFrame::StartThreadForAcceptFile()
+BOOLEAN CMainFrame::StartListenAcceptFile()
 {
 	//SetTimer(TimerForAcceptFile, 1000, NULL);
-	_beginthreadex(NULL, 0, AcceptingFileTransfer, NULL, 0, NULL);
+	//_beginthreadex(NULL, 0, AcceptingFileTransfer, NULL, 0, NULL);
+	if (m_AcptSocket.m_hSocket == INVALID_SOCKET)
+	{
+
+		BOOL bFlag = m_AcptSocket.Create(34, SOCK_STREAM, FD_ACCEPT);
+
+		if (!bFlag)
+		{
+			CString s;
+			s.Format("Socket error with %d", m_AcptSocket.GetLastError());
+			//AfxMessageBox(s);
+			//PostQuitMessage(0);
+			return TRUE;
+		}
+	}
+	if(!m_AcptSocket.Listen(1))
+	{
+		int nErrorCode = m_AcptSocket.GetLastError();
+
+		if (nErrorCode != WSAEWOULDBLOCK)
+		{
+			CString s;
+			s.Format("Listen error %d", nErrorCode);
+			AfxMessageBox(s);
+			m_AcptSocket.Close();
+			//PostQuitMessage(0);
+			return FALSE;
+		}
+	}
 	return TRUE;
 }

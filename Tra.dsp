@@ -78,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ws2_32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -89,6 +89,10 @@ LINK32=link.exe
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Source File
+
+SOURCE=.\AcceptFileSocket.cpp
+# End Source File
 # Begin Source File
 
 SOURCE=.\BtnSchLft.cpp
@@ -151,6 +155,14 @@ SOURCE=.\OptMTF.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\RcvFileSocket.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\SndFileSocket.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\SpltFileDlg.cpp
 # End Source File
 # Begin Source File
@@ -186,6 +198,10 @@ SOURCE=.\Util.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\AcceptFileSocket.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\BtnSchLft.h
@@ -252,7 +268,15 @@ SOURCE=.\OptMTF.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\RcvFileSocket.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Resource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\SndFileSocket.h
 # End Source File
 # Begin Source File
 

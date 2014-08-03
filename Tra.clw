@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CTraDoc
-LastTemplate=CDialog
+LastClass=CDlgTransf
+LastTemplate=CAsyncSocket
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "tra.h"
 LastPage=0
 
-ClassCount=18
+ClassCount=20
 Class1=CBtnSchLft
 Class2=CColorDlg
 Class3=CEditFinder
@@ -51,6 +51,8 @@ Class17=CSpltFileDlg
 Resource21=IDD_OPT_MOCA
 Resource22=IDD_DLG_FIND
 Class18=CDlgTransf
+Class19=CRcvFileSocket
+Class20=CSndFileSocket
 Resource23=IDD_DLG_TRANSF
 
 [CLS:CBtnSchLft]
@@ -150,6 +152,7 @@ Type=0
 BaseClass=CDialog
 HeaderFile=Tra.cpp
 ImplementationFile=Tra.cpp
+LastObject=CAboutDlg
 
 [CLS:CTraDoc]
 Type=0
@@ -568,4 +571,22 @@ BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
 LastObject=CDlgTransf
+
+[CLS:CRcvFileSocket]
+Type=0
+HeaderFile=RcvFileSocket.h
+ImplementationFile=RcvFileSocket.cpp
+BaseClass=CAsyncSocket
+Filter=N
+LastObject=CRcvFileSocket
+VirtualFilter=q
+
+[CLS:CSndFileSocket]
+Type=0
+HeaderFile=SndFileSocket.h
+ImplementationFile=SndFileSocket.cpp
+BaseClass=CAsyncSocket
+Filter=N
+LastObject=CSndFileSocket
+VirtualFilter=q
 

@@ -10,8 +10,10 @@
 #include"OptDlg.h"
 #include"optmtf.h"
 #include"colorDlg.h"
+#include"DlgTransf.h"
 
 #include<afxrich.h>
+#include "SndFileSocket.h"	// Added by ClassView
 
 #if _MSC_VER > 1000
 #pragma once
@@ -103,11 +105,13 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
+	CSndFileSocket m_SndFileSocket;
 	unsigned long CalEndLinId();
 	unsigned long CalBegLinId();
 	void OnSelectChanged(CMcmd *SelectMcmd);
 	unsigned long m_EndLinId;
 	unsigned long m_BegLinId;
+	CDlgTransf m_dtf;
 private:
 	bool IsDosFormat(CString &filename);
 };

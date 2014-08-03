@@ -52,6 +52,11 @@ CMemoryState m1,m2,m3;
 
 BOOL CTraApp::InitInstance()
 {
+	if (!AfxSocketInit())
+	{
+		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
+		return FALSE;
+	}
 	//CMcmd *pp = new CMcmd[100];
 #ifdef _DEBUG
 	m1.Checkpoint();
@@ -108,7 +113,7 @@ BOOL CTraApp::InitInstance()
 
 	//this->SetDialogBkColor(RGB(100,100,100), RGB(255,0,0));
 
-	return ((CMainFrame*) m_pMainWnd)->StartThreadForAcceptFile();
+	return ((CMainFrame*) m_pMainWnd)->StartListenAcceptFile();
 }
 
 

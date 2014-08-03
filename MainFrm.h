@@ -9,6 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 #include "mytoolbar.h"
+#include "acceptfilesocket.h"
+
 
 class CTraView;
 
@@ -26,7 +28,7 @@ public:
 
 // Operations
 public:
-	BOOLEAN StartThreadForAcceptFile();
+	BOOLEAN StartListenAcceptFile();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMainFrame)
@@ -40,6 +42,8 @@ public:
 // Implementation
 public:
 	boolean m_bSearchShwFlg;
+	CAcceptSocket m_AcptSocket;
+
 	virtual ~CMainFrame();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -47,6 +51,7 @@ public:
 #endif
 
 public:  // control bar embedded members
+	
 	CStatusBar  m_wndStatusBar;
 	CToolBar    m_wndToolBar;
 	CMyToolBar    m_wndMyToolBar;

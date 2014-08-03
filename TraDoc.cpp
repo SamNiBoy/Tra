@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "Tra.h"
 
-#include <winsock2.h>
+//#include <winsock2.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <process.h>
@@ -1801,17 +1801,57 @@ unsigned WINAPI FileTrnsf(void *arg)
 }
 
 void CTraDoc::OnFileTrnsf() 
-{
-	CDlgTransf df;
-	
-	if (df.DoModal() == IDOK)
+{	
+	if (m_dtf.DoModal() == IDOK)
 	{
 		paraft.p = this;
-		paraft.a1 = df.a1;
-		paraft.a2 = df.a2;
-		paraft.a3 = df.a3;
-		paraft.a4 = df.a4;
+		paraft.a1 = m_dtf.a1;
+		paraft.a2 = m_dtf.a2;
+		paraft.a3 = m_dtf.a3;
+		paraft.a4 = m_dtf.a4;
 
-	    _beginthreadex(NULL, 0, FileTrnsf, &paraft, 0, NULL);
+	    //_beginthreadex(NULL, 0, FileTrnsf, &paraft, 0, NULL);
+
+		if (m_sFileName.GetLength() > 0)
+		{
+
+			REQACK action = TRANFILE;
+
+        	m_SndFileSocket.ShutDown(2);
+	        m_SndFileSocket.m_hSocket = INVALID_SOCKET;
+	        m_SndFileSocket.m_bConnected = FALSE;
+			m_SndFileSocket.m_bStartTrn = false;
+			m_SndFileSocket.setFileForSend(m_sFileName);
+
+
+			 CString ip;
+			 //ip.Format("%d.%d.%d.%d", 127,0,0,1);
+			 ip.Format("%d.%d.%d.%d", m_dtf.a1,m_dtf.a2,m_dtf.a3,m_dtf.a4);
+
+			 //AfxMessageBox(ip);
+
+			 if (m_SndFileSocket.m_hSocket == INVALID_SOCKET)
+			 {
+				 BOOL bFlag = m_SndFileSocket.Create(0, SOCK_STREAM, FD_CONNECT);
+		         if(!bFlag)
+				 {
+			         AfxMessageBox("Socket error!");
+			         m_SndFileSocket.Close();
+			         return;
+				 }
+			 }
+
+	         m_SndFileSocket.Connect(ip, 34);
+
+			 //memcpy(m_SndFileSocket.m_szBuffer, &action, sizeof action);
+			 memset(m_SndFileSocket.ackmsg, 0, sizeof m_SndFileSocket.ackmsg);
+
+			 sprintf(m_SndFileSocket.ackmsg, "%s", (LPCTSTR)m_sFileName);
+			 //memcpy(m_SndFileSocket.m_szBuffer, (LPCTSTR)m_sFileName, m_sFileName.GetLength());
+			 //m_SndFileSocket.Send(m_SndFileSocket.m_szBuffer, strlen(m_SndFileSocket.m_szBuffer), 0);
+
+			 m_SndFileSocket.AsyncSelect(FD_WRITE);
+
+		}
 	}
 }

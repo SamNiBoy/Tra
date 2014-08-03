@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "tra.h"
 #include "DlgTransf.h"
-#include <winsock2.h>
+//#include <winsock2.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

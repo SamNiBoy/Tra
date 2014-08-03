@@ -3,6 +3,7 @@
 // Used by Tra.rc
 //
 #define IDD_ABOUTBOX                    100
+#define IDP_SOCKETS_INIT_FAILED         103
 #define IDR_MAINFRAME                   128
 #define IDR_TRATYPE                     129
 #define IDD_OPT_SETTING                 130
