@@ -116,7 +116,7 @@ void CSndFileSocket::OnReceive(int nErrorCode)
 
 					 CString s;
 					 s.Format("File sent completely.");
-					 AfxMessageBox(s);
+					 AfxMessageBox(s, MB_OK|MB_ICONINFORMATION);
 					 //closesocket(servSock);
 				 }
 			 }
