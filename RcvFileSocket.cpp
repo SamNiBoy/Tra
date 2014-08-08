@@ -107,9 +107,13 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 		{
 			m_fileToSave.Close();
 			this->Close();
-			CString s;
+			m_bStartTrn = false;
 
-			
+			sprintf(m_szBuffer, "ACKFINISHED");
+
+			AsyncSelect(FD_WRITE);
+
+			CString s;
 
 					 s.Format("Open file [%s] with trace digger?", (LPCSTR)m_fileToSave.GetFilePath());
 			         if (AfxMessageBox(s, MB_YESNO|MB_ICONQUESTION) == IDYES)

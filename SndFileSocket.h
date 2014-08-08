@@ -17,7 +17,7 @@ class CSndFileSocket : public CAsyncSocket
 // Attributes
 public:
 	BOOL m_bConnected;
-	UINT m_nLength;
+	UINT m_nLength, m_nSentLenght;
 	char *m_szBuffer;
 	char ackmsg[4096];
 // Operations
