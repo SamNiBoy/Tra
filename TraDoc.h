@@ -42,6 +42,7 @@ CColorDlg * m_OptColor;
 CPropertySheet *m_pSheet;
 CTraFile * m_pf;
 TRACETYPE m_trcTyp;
+DWORD m_fileLength;
 // Operations
 public:
 

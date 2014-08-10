@@ -1550,6 +1550,8 @@ bool CTraDoc::IsDosFormat(CString &filename)
 		exit(0);
 	}
 
+	this->m_fileLength = fl.GetLength();
+
 	char buff[500];
 
 	fl.Read(buff, 500);
@@ -1846,7 +1848,7 @@ void CTraDoc::OnFileTrnsf()
 			 //memcpy(m_SndFileSocket.m_szBuffer, &action, sizeof action);
 			 memset(m_SndFileSocket.ackmsg, 0, sizeof m_SndFileSocket.ackmsg);
 
-			 sprintf(m_SndFileSocket.ackmsg, "%s", (LPCTSTR)m_sFileName);
+			 sprintf(m_SndFileSocket.ackmsg, "%s, size:%u", (LPCTSTR)m_sFileName, m_fileLength);
 			 //memcpy(m_SndFileSocket.m_szBuffer, (LPCTSTR)m_sFileName, m_sFileName.GetLength());
 			 //m_SndFileSocket.Send(m_SndFileSocket.m_szBuffer, strlen(m_SndFileSocket.m_szBuffer), 0);
 

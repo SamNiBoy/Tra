@@ -18,6 +18,9 @@ static char THIS_FILE[] = __FILE__;
 CRcvFileSocket::CRcvFileSocket()
 {
 	m_bStartTrn = false;
+	m_szBuffer = NULL;
+	m_totToRcvLen = 0;
+	m_totRcvedLen = 0;
 }
 
 CRcvFileSocket::~CRcvFileSocket()
@@ -57,8 +60,31 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	CString file_name;
-	memset(m_szBuffer, 0, sizeof(m_szBuffer));
-	m_nLength = Receive(m_szBuffer, sizeof(m_szBuffer));
+	
+	if (!m_bStartTrn)
+	{
+	    memset(ackmsg, 0, sizeof(ackmsg));
+	    m_nLength = Receive(ackmsg, sizeof(ackmsg));
+		ackmsg[m_nLength] = '\0';
+	}
+	else
+	{
+		while(m_totRcvedLen < m_totToRcvLen)
+		{
+			if((m_nLength = Receive(m_szBuffer + m_totRcvedLen, m_totToRcvLen - m_totRcvedLen)) == SOCKET_ERROR)
+			{
+				if (GetLastError() == WSAEWOULDBLOCK)
+					break;
+				else
+				{
+					AfxMessageBox("Socket failed to receive!");
+					return;
+				}
+			}
+			//m_szBuffer[m_totRcvedLen + m_nLength] = '\0';
+			m_totRcvedLen += m_nLength;
+		}
+	}
 
 	if (m_bStartTrn == false && m_nLength > 0)
 	{
@@ -66,16 +92,30 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 		unsigned int PO;
 		GetPeerName(PA, PO);
 			CString s;
-			s.Format("[%s] send file %s to you, accept?", (LPCSTR)PA, m_szBuffer);
+			s.Format("[%s] send file %s to you, accept?", (LPCSTR)PA, ackmsg);
 			if (AfxMessageBox(s, MB_YESNO|MB_ICONQUESTION) != IDYES)
 			{
-				memset(m_szBuffer, 0, sizeof m_szBuffer);
-				sprintf(m_szBuffer, "REFUSE");
+				memset(ackmsg, 0, sizeof ackmsg);
+				sprintf(ackmsg, "REFUSE");
 			}
 			else
 			{
-				memset(m_szBuffer, 0, sizeof m_szBuffer);
-				sprintf(m_szBuffer, "ACCEPT");
+				char *p = strstr(ackmsg, "size:");
+				p = p+5;
+				m_totToRcvLen = atol(p);
+				CString mg;
+				mg.Format("size is [%u]\n", m_totToRcvLen);
+
+				//AfxMessageBox(mg);
+
+				if (m_szBuffer)
+					delete m_szBuffer;
+
+				m_szBuffer = new char[m_totToRcvLen]; //(char*) calloc(1, m_totToRcvLen);
+
+				memset(ackmsg, 0, sizeof ackmsg);
+
+				sprintf(ackmsg, "ACCEPT");
 
 				m_bStartTrn = true;
 
@@ -91,7 +131,7 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 					 s.Format("Can not write file %s", (LPCSTR)file_name);
 
 					 AfxMessageBox(s, MB_OK|MB_ICONERROR);
-					 sprintf(m_szBuffer, "REFUSE");
+					 sprintf(ackmsg, "REFUSE");
 				 }
 				 else 
 					 m_bStartTrn = true;
@@ -100,49 +140,43 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 			return;
 	}
 
-	if (m_nLength)
+	if (m_totRcvedLen == m_totToRcvLen && m_totRcvedLen > 0)
 	{
-		if (strcmp(m_szBuffer, "FINISHED") == 0)
-			//AfxMessageBox("FINISHED GOT");
-		{
+		file_name = m_fileToSave.GetFilePath();
+		m_szBuffer[m_totRcvedLen] = '\0';
+			m_fileToSave.Write(m_szBuffer, m_totRcvedLen);
+			m_fileToSave.Flush();
 			m_fileToSave.Close();
-			this->Close();
+			
+			TRACE("Writing[%d]...\n", m_totRcvedLen);
+
 			m_bStartTrn = false;
 
-			sprintf(m_szBuffer, "ACKFINISHED");
+			sprintf(ackmsg, "ACKFINISHED");
 
 			AsyncSelect(FD_WRITE);
 
+
+
 			CString s;
 
-					 s.Format("Open file [%s] with trace digger?", (LPCSTR)m_fileToSave.GetFilePath());
-			         if (AfxMessageBox(s, MB_YESNO|MB_ICONQUESTION) == IDYES)
-					 {
+			s.Format("Open file [%s] with trace digger?", (LPCSTR)file_name);
+			if (AfxMessageBox(s, MB_YESNO|MB_ICONQUESTION) == IDYES)
+			{
 						 
-						 CMainFrame *pMain=(CMainFrame*)AfxGetApp()->m_pMainWnd;
+				CMainFrame *pMain=(CMainFrame*)AfxGetApp()->m_pMainWnd;
 
-						 CView * active = pMain->GetActiveView();
+				CView * active = pMain->GetActiveView();
 
-						 CTraDoc *pDoc = (CTraDoc*) active->GetDocument();
+				CTraDoc *pDoc = (CTraDoc*) active->GetDocument();
 
-						 pDoc->m_sFileName = m_fileToSave.GetFilePath();
+				pDoc->m_sFileName = file_name;
 
-						 pMain->PostMessage(WM_OPENTRANFILE);
-						 //pDoc->OpenFile(fn);
-						 //AfxGetApp()->PostThreadMessage(WM_OPENTRANFILE, 0, 0);
-
-					 }
+				pMain->PostMessage(WM_OPENTRANFILE);
+			}
+			m_totRcvedLen = 0;
 			return;
-		}
-		else
-		{
-			CString s;
-			s.Format("%s", m_szBuffer);
-			m_fileToSave.WriteString(s);
-		}
 	}
-
-	AsyncSelect(FD_READ);
 
 	CAsyncSocket::OnReceive(nErrorCode);
 }
@@ -152,16 +186,19 @@ void CRcvFileSocket::OnSend(int nErrorCode)
 	// TODO: Add your specialized code here and/or call the base class
 	//char buff[4096];
 
-	m_nLength = strlen(m_szBuffer);
-	Send(m_szBuffer, m_nLength, 0);
-	memset(m_szBuffer, 0, sizeof m_szBuffer);
+	 m_nLength = strlen(ackmsg);
 
-	if (m_bStartTrn)
-	{
-	    AsyncSelect(FD_READ);
-	}
+	 if (m_nLength == 0)
+		 return;
+	 Send(ackmsg, m_nLength, 0);
 
-	CAsyncSocket::OnSend(nErrorCode);
+	 //memset(ackmsg, 0, sizeof ackmsg);
+
+	 AsyncSelect(FD_READ);
+
+	 //memset(ackmsg, 0, sizeof ackmsg);
+
+	//CAsyncSocket::OnSend(nErrorCode);
 }
 
 void CRcvFileSocket::OnConnect(int nErrorCode) 

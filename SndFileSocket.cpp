@@ -61,6 +61,13 @@ void CSndFileSocket::OnReceive(int nErrorCode)
 
 	m_nLength = Receive(ackmsg, sizeof(ackmsg), 0);
 
+	ackmsg[m_nLength] = '\0';
+
+	if (strlen(ackmsg) == 0)
+	{
+		return;
+	}
+
 			 if (!m_bStartTrn && strcmp(ackmsg, "REFUSE") == 0)
 			 {
 				 CString PName;
@@ -101,26 +108,11 @@ void CSndFileSocket::OnReceive(int nErrorCode)
 						 return;
 					 }
 					 
-					 memset(m_szBuffer, 0, m_nLength);
-					 while(f.ReadString(line))
-					 {
-						 line = line + "\n";
-						 strcat(m_szBuffer, (LPCSTR)line);
-						//sprintf(m_szBuffer, "%s\n", (LPCSTR)line);
-						//Send(m_szBuffer, strlen(m_szBuffer), 0);
-						//AsyncSelect(FD_WRITE);
-						//memset(m_szBuffer, 0, sizeof m_szBuffer);
-					 }
+					 f.Read(m_szBuffer, m_nLength);
 
 					 m_nSentLenght = 0;
 					 f.Close();
-					 //memset(m_szBuffer, 0, fl);
-					 //sprintf(m_szBuffer, "FINISHED");
-					 //Send(m_szBuffer, strlen(m_szBuffer), 0);
 					 AsyncSelect(FD_WRITE);
-
-
-					 //closesocket(servSock);
 				 }
 			 }
 			 else if(strcmp(ackmsg, "ACKFINISHED") == 0)
@@ -135,7 +127,6 @@ void CSndFileSocket::OnReceive(int nErrorCode)
 				 AfxMessageBox("Got unexpected response!");
 			 }
 
-	//memset(m_szBuffer, 0, sizeof(m_szBuffer));
 
 	//CAsyncSocket::OnReceive(nErrorCode);
 }
@@ -156,16 +147,8 @@ void CSndFileSocket::OnSend(int nErrorCode)
 	{
 		if (m_nSentLenght == m_nLength)
 		{
-			unsigned long noblock = 0;
-			UINT l = 0;
-			//this->IOCtl(FIONBIO, &noblock);
-			//setsockopt(this->m_hSocket,SOL_SOCKET,SO_SNDBUF,(const char*)&l,sizeof(int)); 
-	        sprintf(ackmsg, "FINISHED");
-		    Send(ackmsg, strlen(ackmsg));
-
 		    AsyncSelect(FD_READ);
 		    m_bStartTrn = false;
-
 			return;
 		}
 

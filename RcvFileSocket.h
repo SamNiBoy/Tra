@@ -16,8 +16,11 @@ class CRcvFileSocket : public CAsyncSocket
 {
 // Attributes
 public:
-	char m_szBuffer[4096];
+	char *m_szBuffer;
+	char ackmsg[4096];
 	int m_nLength;
+	DWORD m_totToRcvLen;
+	DWORD m_totRcvedLen;
 // Operations
 public:
 	CRcvFileSocket();
