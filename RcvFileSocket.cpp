@@ -113,6 +113,8 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 
 				m_szBuffer = new char[m_totToRcvLen]; //(char*) calloc(1, m_totToRcvLen);
 
+				memset(m_szBuffer, 0, m_totToRcvLen);
+
 				memset(ackmsg, 0, sizeof ackmsg);
 
 				sprintf(ackmsg, "ACCEPT");
@@ -126,7 +128,7 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 	         	    return;
 
 	             file_name = dlg.GetPathName();
-				 if (!m_fileToSave.Open(file_name, CFile::modeCreate|CFile::modeWrite))
+				 if (!m_fileToSave.Open(file_name, CFile::modeCreate|CFile::modeWrite|CFile::typeBinary))
 				 {
 					 s.Format("Can not write file %s", (LPCSTR)file_name);
 
@@ -144,6 +146,7 @@ void CRcvFileSocket::OnReceive(int nErrorCode)
 	{
 		file_name = m_fileToSave.GetFilePath();
 		m_szBuffer[m_totRcvedLen] = '\0';
+
 			m_fileToSave.Write(m_szBuffer, m_totRcvedLen);
 			m_fileToSave.Flush();
 			m_fileToSave.Close();

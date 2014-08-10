@@ -88,7 +88,7 @@ void CSndFileSocket::OnReceive(int nErrorCode)
 
 				 CStdioFile f;
 
-				 if (!f.Open(m_sFileForSend, CFile::modeRead))
+				 if (!f.Open(m_sFileForSend, CFile::modeRead|CFile::typeBinary))
 				 {
 					 AfxMessageBox("Can not open file to transfer!", MB_OK|MB_ICONERROR);
 					 return ;
