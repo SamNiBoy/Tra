@@ -102,7 +102,7 @@ protected:
 	afx_msg void OnFileExport();
 	afx_msg void OnUpdateFileExport(CCmdUI* pCmdUI);
 	afx_msg void OnFileTrnsf();
-
+	afx_msg void OnUpdateFileTrnsf(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:

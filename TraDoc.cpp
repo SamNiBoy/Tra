@@ -56,8 +56,9 @@ BEGIN_MESSAGE_MAP(CTraDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(IDM_SHOW_BKMK, OnUpdateShowBkmk)
 	ON_COMMAND(ID_FILE_EXPORT, OnFileExport)
 	ON_UPDATE_COMMAND_UI(ID_FILE_EXPORT, OnUpdateFileExport)
-	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
 	ON_COMMAND(ID_FILE_TRNSF, OnFileTrnsf)
+	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_TRNSF, OnUpdateFileTrnsf)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1856,4 +1857,10 @@ void CTraDoc::OnFileTrnsf()
 
 		}
 	}
+}
+
+void CTraDoc::OnUpdateFileTrnsf(CCmdUI* pCmdUI) 
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->Enable(this->m_sFileName.GetLength() > 0);
 }

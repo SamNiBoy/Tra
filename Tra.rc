@@ -168,6 +168,7 @@ BEGIN
     "P",            ID_FILE_SPLIT,          VIRTKEY, CONTROL, NOINVERT
     "R",            IDM_REFRESH_VIEW,       VIRTKEY, SHIFT, NOINVERT
     "S",            IDM_SHOW_BKMK,          VIRTKEY, SHIFT, NOINVERT
+    "T",            ID_FILE_TRNSF,          VIRTKEY, CONTROL, NOINVERT
     VK_F3,          IDM_FIND_NXTMCMD,       VIRTKEY, NOINVERT
     VK_F5,          ID_HIDE_APP,            VIRTKEY, NOINVERT
     VK_F6,          ID_SHOW_APP,            VIRTKEY, NOINVERT

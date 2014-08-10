@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CDlgTransf
+LastClass=CTraDoc
 LastTemplate=CAsyncSocket
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "tra.h"
@@ -27,16 +27,16 @@ Class15=CTraDoc
 Class16=CTraView
 
 ResourceCount=23
-Resource1=IDD_OPT_MOCA
-Resource2=IDD_ABOUTBOX
+Resource1=IDD_DLG_SPLT_FILE
+Resource2=IDD_OPT_COLOR
 Resource3=IDR_TOOLBAR
-Resource4=IDD_OPT_MTF
-Resource5=IDD_DLG_FIND
-Resource6=IDR_MAINFRAME
-Resource7=IDD_DLG_SPLT_FILE
-Resource8=IDD_FIND_LIST
+Resource4=IDD_DLG_FIND
+Resource5=IDD_FILE_EXPORT
+Resource6=IDD_OPT_MTF
+Resource7=IDD_IN_PROGRESS
+Resource8=IDR_MAINFRAME
 Resource9=IDD_OPT_COLOR (English (U.S.))
-Resource10=IDD_OPT_COLOR
+Resource10=IDD_FIND_LIST
 Resource11=IDD_OPT_MOCA (English (U.S.))
 Resource12=IDR_TOOLBAR (English (U.S.))
 Resource13=IDD_ABOUTBOX (English (U.S.))
@@ -46,10 +46,10 @@ Resource16=IDR_MAINFRAME (English (U.S.))
 Resource17=IDD_IN_PROGRESS (English (U.S.))
 Resource18=IDD_FIND_LIST (English (U.S.))
 Resource19=IDD_OPT_MTF (English (U.S.))
-Resource20=IDD_FILE_EXPORT
+Resource20=IDD_DLG_GRAPH
 Class17=CSpltFileDlg
-Resource21=IDD_IN_PROGRESS
-Resource22=IDD_DLG_GRAPH
+Resource21=IDD_ABOUTBOX
+Resource22=IDD_OPT_MOCA
 Class18=CDlgTransf
 Class19=CRcvFileSocket
 Class20=CSndFileSocket
@@ -116,7 +116,7 @@ Type=0
 BaseClass=CFrameWnd
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
-LastObject=ID_FILE_OPEN
+LastObject=ID_FILE_TRNSF
 Filter=T
 VirtualFilter=fWC
 
@@ -310,11 +310,12 @@ Command6=ID_FILE_OPEN
 Command7=ID_FILE_SPLIT
 Command8=IDM_REFRESH_VIEW
 Command9=IDM_SHOW_BKMK
-Command10=IDM_FIND_NXTMCMD
-Command11=ID_HIDE_APP
-Command12=ID_SHOW_APP
-Command13=IDM_TOG_MCMD
-CommandCount=13
+Command10=ID_FILE_TRNSF
+Command11=IDM_FIND_NXTMCMD
+Command12=ID_HIDE_APP
+Command13=ID_SHOW_APP
+Command14=IDM_TOG_MCMD
+CommandCount=14
 
 [TB:IDR_MAINFRAME (English (U.S.))]
 Type=1
