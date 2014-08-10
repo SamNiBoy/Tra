@@ -98,6 +98,10 @@ void CSndFileSocket::OnReceive(int nErrorCode)
 					 CString line;
 
 					 m_nLength = f.GetLength();
+
+					 if (m_szBuffer)
+						 free (m_szBuffer);
+
 					 m_szBuffer = (char*)calloc(1, m_nLength);
 
 					 if (!m_szBuffer)
