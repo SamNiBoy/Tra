@@ -15,3 +15,10 @@
 *.ncb
 *.user
 *.res
+*.manifest
+*.enc
+Debug
+Release
+*.aps
+*.opt
+*.hpj
