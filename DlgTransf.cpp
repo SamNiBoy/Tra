@@ -22,6 +22,7 @@ CDlgTransf::CDlgTransf(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CDlgTransf)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
+	a1 = a2 = a3 = a4 = 0;
 }
 
 
@@ -47,7 +48,16 @@ BOOL CDlgTransf::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	// TODO: Add extra initialization here
-	DWORD IPPP=inet_addr("127.0.0.1");
+	CString ips;
+	if (a1 != 0)
+	{
+
+		ips.Format("%d.%d.%d.%d", a1, a2, a3, a4);
+	}
+	else
+		ips = "127.0.0.1";
+
+	DWORD IPPP=inet_addr(ips);
 	m_cIPAddr.SetAddress(ntohl(IPPP));
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
