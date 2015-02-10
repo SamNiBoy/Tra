@@ -537,7 +537,7 @@ void CLeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 					CTC.DeleteItem(hItem);
 			}
 			//reinsert all decedents
-		    for( i= pTopMcmd->ID; i< pDoc->m_ObjArrMcmds.GetSize(); i++)
+		    for(int i= pTopMcmd->ID; i< pDoc->m_ObjArrMcmds.GetSize(); i++)
 			{
 				pCurMcmd = (CMcmd*)pDoc->m_ObjArrMcmds[i];
 				if(pCurMcmd->level <= pTopMcmd->level)
@@ -719,7 +719,7 @@ void CLeftView::OnItemexpanded(NMHDR* pNMHDR, LRESULT* pResult)
 void CLeftView::OnTogMcmd() 
 {
 	// TODO: Add your command handler code here
-	static expandflg = 1;
+	static int expandflg = 1;
 
 	HTREEITEM hItem = NULL;
 	CTraDoc *pDoc = this->GetDocument();
@@ -878,7 +878,7 @@ void CLeftView::OnTogoBkmk()
 
 BOOL CLeftView::PreTranslateMessage(MSG* pMsg) 
 {
-	static Id = -1, preID = -1;
+	static int Id = -1, preID = -1;
 	CTraDoc *pDoc = GetDocument();
 	CMainFrame *pMFrm;
 	// TODO: Add your specialized code here and/or call the base class

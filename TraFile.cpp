@@ -5,7 +5,8 @@
 //#include "TraDoc.h"
 #include "TraFile.h"
 #include "Util.h"
-#include<iostream.h>
+#include<iostream>
+using namespace std;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -137,7 +138,7 @@ bool CTraFile::GetLines(CString &txt, long frm, long to)
 
     	TCHAR *buf = new TCHAR[TotLen + 1];
     	memset(buf, 0, sizeof buf);
-    	ReadHuge(buf, TotLen);
+    	//ReadHuge(buf, TotLen);
     	buf[TotLen] = '\0';
     	txt.Format("%s", buf);
     	delete buf;

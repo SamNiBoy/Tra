@@ -642,7 +642,7 @@ void CTraDoc::UpdateView()
 			 pPrg->ShowWindow(SW_HIDE);
 			 delete pPrg;
 
-			 for( i=0; i< totalMcmd && bShowBKMKOnly; i++)
+			 for(int i=0; i< totalMcmd && bShowBKMKOnly; i++)
 			 {
 				 pMcmd = (CMcmd *)m_ObjArrMcmds[i];
 

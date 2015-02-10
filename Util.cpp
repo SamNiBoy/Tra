@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Tra.h"
 #include "Util.h"
-#include <fstream.h> 
+#include <fstream>
+using namespace std;
 
 /* This helper function is used to read a line from DOS format
  * text file or from Unix text file.

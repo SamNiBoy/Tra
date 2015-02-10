@@ -101,7 +101,7 @@ void CGphDlg::OnPaint()
 		dc.Rectangle(layer);
 		CBrush b2=RGB(255,255,0);
 		dc.SelectObject(b2);
-		for(i = m_RootMcmd->ID - 1; i< m_RootMcmd->ID + McmdCnt - 1; i++)
+		for(int i = m_RootMcmd->ID - 1; i< m_RootMcmd->ID + McmdCnt - 1; i++)
 		{
 			CMcmd *pCur = (CMcmd*) m_pDoc->m_ObjArrMcmds[i];
 		    pCur->DrawSelf(&dc, rt);

@@ -146,8 +146,9 @@ void CSpltFileDlg::SplitFileWithSize()
 
 	CStdioFile Writer;
 	bool finishedFile = false;
+	int i;
 
-	for (int i=0 ; i<subFiles && !finishedFile; i++)
+	for (i=0 ; i<subFiles && !finishedFile; i++)
 	{
 		CString fn;
 		fn.Format("%s_splt%d%s", sub_file_name, i, sufix);

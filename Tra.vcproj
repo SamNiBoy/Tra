@@ -212,6 +212,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\AcceptFileSocket.cpp"
+				>
+			</File>
+			<File
 				RelativePath="BtnSchLft.cpp"
 				>
 				<FileConfiguration
@@ -252,6 +256,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\DlgTransf.cpp"
+				>
+			</File>
+			<File
 				RelativePath="EditFinder.cpp"
 				>
 				<FileConfiguration
@@ -270,6 +278,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\ExportDlg.cpp"
+				>
 			</File>
 			<File
 				RelativePath="FindDlg.cpp"
@@ -472,6 +484,18 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\RcvFileSocket.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SndFileSocket.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SpltFileDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath="StdAfx.cpp"
 				>
 				<FileConfiguration
@@ -594,11 +618,19 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\Util.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath=".\AcceptFileSocket.h"
+				>
+			</File>
 			<File
 				RelativePath="BtnSchLft.h"
 				>
@@ -608,7 +640,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DlgTransf.h"
+				>
+			</File>
+			<File
 				RelativePath="EditFinder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExportDlg.h"
 				>
 			</File>
 			<File
@@ -656,7 +696,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RcvFileSocket.h"
+				>
+			</File>
+			<File
 				RelativePath="Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SndFileSocket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SpltFileDlg.h"
 				>
 			</File>
 			<File
