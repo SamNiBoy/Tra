@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="Tra"
 	ProjectGUID="{13BF7B80-74AA-4D21-B96B-80004CA1CE65}"
+	RootNamespace="Tra"
 	Keyword="MFCProj"
 	TargetFrameworkVersion="0"
 	>
@@ -77,7 +78,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile=".\Release/Tra.exe"
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				ProgramDatabaseFile=".\Release/Tra.pdb"
 				SubSystem="2"
@@ -815,5 +816,9 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="Tra.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

@@ -805,6 +805,7 @@ int CTraDoc::ParseLine(CString line, CString &mcmd)
 		id1 = line.Find(mcmdend);
 		if(id1 >0)
 		{
+			id2 = id2 > 0 ? id2 : 0;
 
 			mcmdbegidx = line.Find('/', id2);
 			if(mcmdbegidx >=0 )

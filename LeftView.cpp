@@ -5,6 +5,7 @@
 #include "Tra.h"
 
 #include "TraDoc.h"
+#include "TraView.h"
 #include "LeftView.h"
 #include "OptDlg.h"
 #include "FindDlg.h"
@@ -172,6 +173,22 @@ void CLeftView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	if(pMcmdSelected)
 	{
 		pDoc->OnSelectChanged(pMcmdSelected);
+
+		/* Need to set right panel with focus otherwise
+		 * it will always scroll to top when clicking right panel.
+		 */
+	    POSITION pos=pDoc->GetFirstViewPosition();
+	    CView *pw =  pDoc->GetNextView(pos);
+	    while(pw)
+	    {
+		    if(pw->IsKindOf(RUNTIME_CLASS(CTraView)))
+		    {
+				pw->SetFocus();
+				((CTraView *)pw)->ScorllToMcmd();
+				break;
+		    }
+			pw =  pDoc->GetNextView(pos);
+		}
 	}
 	*pResult = 0;
 }

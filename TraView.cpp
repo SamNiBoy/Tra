@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CTraView, CRichEditView)
 	ON_WM_RBUTTONDOWN()
 	ON_WM_CANCELMODE()
 	//}}AFX_MSG_MAP
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -90,9 +91,7 @@ void CTraView::OnInitialUpdate()
 
         	CRichEditCtrl &CRE = GetRichEditCtrl();
         	CRE.SetBackgroundColor(false, pDoc->m_OptColor->m_RPCOLORClr);
-        	CRE.SetSel(1,2);
-        	CRE.SetWordCharFormat(cf);
-        	CRE.SetSel(0,0);
+			CRE.SetDefaultCharFormat(cf);
 	CRichEditView::OnInitialUpdate();
 
 }
@@ -351,6 +350,7 @@ void CTraView::DecorateInterested(CMcmd *pCurMcmd)
 	long begpos=0, begpos0 = 0, beglin=0;
 	long endpos, endlin; 
 	CTraDoc *pDoc = GetDocument();
+
 	this->GetWindowText(text);
 	
 	if(text.GetLength() <= 0)
@@ -428,13 +428,11 @@ void CTraView::DecorateInterested(CMcmd *pCurMcmd)
 	// KeyWord
 
     text.MakeLower();
-
-
+	text.Replace("\r\n", "\n");
 	CRichEditCtrl &CRE = GetRichEditCtrl();
+
     CHARFORMAT2 cf;
     cf.cbSize = sizeof(cf);
-
-
 
 	if (pDoc->m_trcTyp == MOCATRACE)
 	{
@@ -471,6 +469,7 @@ void CTraView::DecorateInterested(CMcmd *pCurMcmd)
 					CRE.SetSel(0,0);
 				}
 			}
+			valend = valend > 0 ? valend : (equalmark + 1);
 			begpos = text.Find(arg, valend);
 		}
 
@@ -502,6 +501,7 @@ void CTraView::DecorateInterested(CMcmd *pCurMcmd)
 					CRE.SetSel(0,0);
 				}
 			}
+			valend = valend > 0 ? valend : (equalmark + 1);
 			begpos = text.Find(par, valend);
 		}
 
@@ -534,6 +534,7 @@ void CTraView::DecorateInterested(CMcmd *pCurMcmd)
 					CRE.SetSel(0,0);
 				}
 			}
+			valend = valend > 0 ? valend : (equalmark + 1);
 			begpos = text.Find(pub, valend);
 		}
 	}
@@ -761,11 +762,11 @@ void CTraView::HighLightMcmd(CMcmd *pPreMcmd, CMcmd * pCurMcmd)
 		DecorateInterested(pCurMcmd);
 }
 
-
-
 void CTraView::OnSetFocus(CWnd* pOldWnd) 
 {
-	CRichEditView::OnSetFocus(pOldWnd);
+
+	CWnd::OnSetFocus(pOldWnd);
+	//this->GetRichEditCtrl().SetFocus();
 
 	// TODO: Add your message handler code here
 	/*ID_INDICATOR_MCMD,
@@ -953,7 +954,7 @@ void CTraView::LoadText()
 	else
 	{
 		CRichEditCtrl &CRE = this->GetRichEditCtrl();
-		//ShowWindow(SW_HIDE);
+		ShowWindow(SW_HIDE);
 		CString txt;
 
 		if(endlin - beglin > 5000 && !pDoc->m_OptMoca->m_bAlwsLines)
@@ -987,7 +988,7 @@ void CTraView::LoadText()
 		si.nPos = 0;
 		si.nMax = endlin - beglin;
 		CRE.SetScrollInfo(SB_VERT, &si);
-		//ShowWindow(SW_SHOW);
+		ShowWindow(SW_SHOW);
 
 	}
 }
@@ -1112,6 +1113,8 @@ void CTraView::DecorateKeyWord(long begpos, long endpos)
 
 		CString text;
 		GetWindowText(text);
+		text.MakeLower();
+		text.Replace("\r\n", "\n");
 	    
 	    begpos = text.Find(m_KeyWord, begpos);
 		int keywordlen = m_KeyWord.GetLength();
@@ -1130,4 +1133,12 @@ void CTraView::DecorateKeyWord(long begpos, long endpos)
 			begpos = text.Find(m_KeyWord, begpos + keywordlen);
 		}
 	}
+}
+
+void CTraView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+    //ScorllToMcmd();
+
+	CView::OnLButtonDown(nFlags, point);
 }

@@ -77,6 +77,8 @@ protected:
 
 private:
 	CMcmd * m_preMcmd;
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // debug version in TraView.cpp

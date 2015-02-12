@@ -127,7 +127,7 @@ bool CTraFile::GetLines(CString &txt, long frm, long to)
 
 	    ASSERT(frm <= to);
 
-	    long TotLen, begpos = m_posOfLines[frm-1], endpos;
+	     long TotLen, begpos = m_posOfLines[frm-1], endpos;
 
     	endpos = to < m_posOfLines.GetSize() ? m_posOfLines[to] : GetLength();
 
@@ -244,7 +244,7 @@ bool CTraFile::InitFile(CString fileName,
 
 	CString line;
 
-    unsigned long pos, fileSize = GetLength();
+    long pos, fileSize = GetLength();
 
 	BOOL doSupMod = false;
 
