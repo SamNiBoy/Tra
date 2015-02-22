@@ -27,21 +27,14 @@ CColorDlg::CColorDlg() : CPropertyPage(CColorDlg::IDD)
 	m_sRPTxt = _T("");
 	//}}AFX_DATA_INIT
 	m_eSelected = RANGE;
-	m_sLPTxt = "\r\n"\
-		       "   + Mcmd xxxx\r\n"\
-			   "\r\n"\
+	m_sLPTxt = "   + Mcmd xxxx\r\n"\
 		       "   + Select xxxx\r\n"\
-			   "\r\n"\
 			   "   + Update xxxx\r\n"\
-			   "\r\n"\
 			   "   + Insert xxxx\r\n"\
-			   "\r\n"\
-			   "   + Delete xxxx\r\n"
-			   "\r\n"\
+			   "   + Delete xxxx\r\n"\
 			   "   + Status(ERCD)\r\n";
 
-	m_sRPTxt = "Text beyond interest "\
-			   "\r\n"\
+	m_sRPTxt = "Text beyond interest \r\n"\
 		       "Server got: Mcmd xxx\r\n"\
                "Looking up Command: mcmd\r\n"\
                "Argument  trlr_num = 'xxx'\r\n"\
@@ -51,11 +44,11 @@ CColorDlg::CColorDlg() : CPropertyPage(CColorDlg::IDD)
 		       "Select xxxx\r\n"\
 			   "Update xxxx\r\n"\
 			   "Insert xxxx\r\n"\
-			   "Delete xxxx\r\n"
+			   "Delete xxxx\r\n"\
                "-----------------------------------\r\n"\
                "Executed Command: package/mcmd\r\n"\
                "Dispatched command\r\n"\
-			   "Text beyond interest ";
+			   "Text beyond interest \r\n";
 
 	m_RANGEClr = RGB(0,0,255);    
 	m_BEYONDClr = RGB(50,50,50);
@@ -367,6 +360,10 @@ void CColorDlg::ColoringSelection(SELECTION sel)
 	
 	pLPEdt->GetWindowText(ltxt);
 	pRPEdt->GetWindowText(rtxt);
+	//ltxt = this->m_sLPTxt;
+	//rtxt = this->m_sRPTxt;
+	ltxt.Replace("\r\n","\n");
+	rtxt.Replace("\r\n","\n");
 
 	CHARFORMAT2 cf;
     cf.cbSize = sizeof(cf);
@@ -374,9 +371,8 @@ void CColorDlg::ColoringSelection(SELECTION sel)
 	cf.dwMask = CFM_COLOR |CFM_BOLD;
 	cf.dwEffects = CFE_BOLD;
 
-	cf.wWeight = 100;
-	cf.yHeight = 200;
-
+	cf.wWeight = 10;
+	cf.yHeight = 20;
 	int beg, end;
 
 	switch(sel)
@@ -799,7 +795,7 @@ void CColorDlg::UpdateColor()
 
 void CColorDlg::SetTextFont()
 {
-    CFont ft;
+    CFont ft1, ft2;
     //LOGFONT lf;
 
 	CRichEditCtrl *pLPEdt = (CRichEditCtrl *)this->GetDlgItem(IDC_EDT_LP);
@@ -809,10 +805,11 @@ void CColorDlg::SetTextFont()
     //strcpy(lf.lfFaceName, "Arial");        // request a face name "Arial"
 	//lf.lfWeight = 100;//FW_NORMAL;
 	//ft.CreateFontIndirect(&lf);
-	ft.CreatePointFont(110,"Arial");
+	ft1.CreatePointFont(110,"Arial");
+	ft2.CreatePointFont(100,"Arial");
 	//m_pEdit->GetDC()->SetTextColor(RGB(0,0,255));
-	pLPEdt->SetFont(&ft);
-	pRPEdt->SetFont(&ft);
+	pLPEdt->SetFont(&ft1);
+	pRPEdt->SetFont(&ft2);
 }
 
 void CColorDlg::OnBtnReset() 

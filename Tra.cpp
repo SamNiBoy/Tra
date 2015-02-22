@@ -52,6 +52,12 @@ CMemoryState m1,m2,m3;
 
 BOOL CTraApp::InitInstance()
 {
+//TODO: call AfxInitRichEdit2() to initialize richedit2 library.
+	if (!AfxInitRichEdit2())
+	{
+		AfxMessageBox("Init RichEdit2 failed!");
+		return FALSE;
+	}
 	if (!AfxSocketInit())
 	{
 		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);

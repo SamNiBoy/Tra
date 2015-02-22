@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_OLE_RESOURCES\r\n"
     "#define _AFX_NO_TRACKER_RESOURCES\r\n"
@@ -65,28 +65,28 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Tra.ico"
-IDR_TRATYPE             ICON    DISCARDABLE     "res\\TraDoc.ico"
-IDI_ICN_OPEN            ICON    DISCARDABLE     "res\\icn_clos.ico"
-IDI_ICN_CLOSE           ICON    DISCARDABLE     "res\\folder_open_add2.ico"
-IDI_ICN_BKMK            ICON    DISCARDABLE     "res\\ico00001.ico"
+IDR_MAINFRAME           ICON                    "res\\Tra.ico"
+IDR_TRATYPE             ICON                    "res\\TraDoc.ico"
+IDI_ICN_OPEN            ICON                    "res\\icn_clos.ico"
+IDI_ICN_CLOSE           ICON                    "res\\folder_open_add2.ico"
+IDI_ICN_BKMK            ICON                    "res\\ico00001.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
-IDR_TOOLBAR             BITMAP  DISCARDABLE     "res\\toolbar1.bmp"
-IDB_BMP_CLOSE           BITMAP  DISCARDABLE     "res\\bpclose.bmp"
-IDB_BMP_OPEN            BITMAP  DISCARDABLE     "res\\bpopen.bmp"
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_TOOLBAR             BITMAP                  "res\\toolbar1.bmp"
+IDB_BMP_CLOSE           BITMAP                  "res\\bpclose.bmp"
+IDB_BMP_OPEN            BITMAP                  "res\\bpopen.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
 //
 
-IDR_MAINFRAME TOOLBAR MOVEABLE PURE  25, 20
+IDR_MAINFRAME TOOLBAR  25, 20
 BEGIN
     BUTTON      ID_FILE_OPEN
     BUTTON      IDM_REFRESH_VIEW
@@ -102,7 +102,7 @@ BEGIN
     BUTTON      IDM_SHOW_BKMK
 END
 
-IDR_TOOLBAR TOOLBAR DISCARDABLE  491, 20
+IDR_TOOLBAR TOOLBAR  491, 20
 BEGIN
     BUTTON      IDE_TOOLBAR_FIND
 END
@@ -113,7 +113,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+IDR_MAINFRAME MENU 
 BEGIN
     POPUP "&File"
     BEGIN
@@ -157,7 +157,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+IDR_MAINFRAME ACCELERATORS 
 BEGIN
     "B",            IDM_TOG_BKMK,           VIRTKEY, CONTROL, NOINVERT
     "D",            IDM_CLR_BKMK,           VIRTKEY, SHIFT, NOINVERT
@@ -181,44 +181,33 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 322, 178
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUTBOX DIALOG  0, 0, 322, 178
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Trace Digger"
 FONT 8, "MS Sans Serif"
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,7,7,21,20
     DEFPUSHBUTTON   "OK",IDOK,129,151,50,14,WS_GROUP
-    EDITTEXT        IDC_EDT_ABOUT,7,28,308,117,ES_MULTILINE | ES_UPPERCASE | 
-                    ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
-    CTEXT           "About Trace Digger",IDC_STATIC,59,9,186,14,
-                    SS_CENTERIMAGE | NOT WS_GROUP
+    EDITTEXT        IDC_EDT_ABOUT,7,28,308,117,ES_MULTILINE | ES_UPPERCASE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
+    CTEXT           "About Trace Digger",IDC_STATIC,59,9,186,14,SS_CENTERIMAGE | NOT WS_GROUP
 END
 
-IDD_OPT_MOCA DIALOG DISCARDABLE  0, 0, 295, 204
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_OPT_MOCA DIALOG  0, 0, 295, 204
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Moca Options"
 FONT 10, "Kristen ITC"
 BEGIN
-    CONTROL         "Include Select",IDC_CHK_SELECT,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,13,16,62,10
-    CONTROL         "Include Update",IDC_CHK_Update,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,13,30,65,10
-    CONTROL         "Include Delete",IDC_CHK_DELETE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,13,43,63,10
-    CONTROL         "Include Insert",IDC_CHK_INSERT,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,13,56,60,10
-    CONTROL         "Include Mcmd",IDC_CHK_MCMD,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,13,68,61,10
-    CONTROL         "All",IDC_RAD_SHOWALL,"Button",BS_AUTORADIOBUTTON,14,93,
-                    24,10
-    CONTROL         "Highlight",IDC_RAD_SHOWSINGLE,"Button",
-                    BS_AUTORADIOBUTTON,47,93,45,10
+    CONTROL         "Include Select",IDC_CHK_SELECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,16,62,10
+    CONTROL         "Include Update",IDC_CHK_Update,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,30,65,10
+    CONTROL         "Include Delete",IDC_CHK_DELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,43,63,10
+    CONTROL         "Include Insert",IDC_CHK_INSERT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,56,60,10
+    CONTROL         "Include Mcmd",IDC_CHK_MCMD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,68,61,10
+    CONTROL         "All",IDC_RAD_SHOWALL,"Button",BS_AUTORADIOBUTTON,14,93,24,10
+    CONTROL         "Highlight",IDC_RAD_SHOWSINGLE,"Button",BS_AUTORADIOBUTTON,47,93,45,10
     EDITTEXT        IDC_EDT_MAXLINENUM,48,121,41,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDT_THRESHVAL,48,142,41,14,ES_AUTOHSCROLL
-    LISTBOX         IDC_LST_BEGIN,108,30,75,80,LBS_NOINTEGRALHEIGHT | 
-                    WS_VSCROLL | WS_TABSTOP
-    LISTBOX         IDC_LST_END,187,30,80,80,LBS_NOINTEGRALHEIGHT | 
-                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LST_BEGIN,108,30,75,80,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LST_END,187,30,80,80,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDT_BEGIN,107,119,76,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDT_END,187,120,80,12,ES_AUTOHSCROLL
     PUSHBUTTON      "Add",IDC_OPT_ADD,108,137,53,13
@@ -232,14 +221,12 @@ BEGIN
     LTEXT           "Thresh:",IDC_STATIC,10,145,34,10
     GROUPBOX        "Right Panel",IDC_STATIC,7,80,87,28
     GROUPBOX        "If Big",IDC_STATIC,7,164,267,25
-    CONTROL         "Super File Mode",IDC_CHK_SUPMOD,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,17,175,74,10
-    CONTROL         "Always Load 3000 lines",IDC_CHK_LOD3000,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,96,175,171,10
+    CONTROL         "Super File Mode",IDC_CHK_SUPMOD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,175,74,10
+    CONTROL         "Always Load 3000 lines",IDC_CHK_LOD3000,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,96,175,171,10
 END
 
-IDD_DLG_FIND DIALOG DISCARDABLE  0, 0, 187, 69
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_DLG_FIND DIALOG  0, 0, 187, 69
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Find"
 FONT 9, "ËÎÌו"
 BEGIN
@@ -249,101 +236,78 @@ BEGIN
     LTEXT           "Text:",IDC_STATIC,15,16,22,12
 END
 
-IDD_FIND_LIST DIALOG DISCARDABLE  0, 0, 284, 147
-STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CLIPCHILDREN | 
-    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+IDD_FIND_LIST DIALOG  0, 0, 284, 147
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "All Find"
 FONT 10, "System"
 BEGIN
     PUSHBUTTON      "Close",IDOK,71,131,50,14,BS_CENTER | BS_BOTTOM
-    LISTBOX         IDC_FIND_LST,0,0,284,128,LBS_NOINTEGRALHEIGHT | 
-                    WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LISTBOX         IDC_FIND_LST,0,0,284,128,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
     PUSHBUTTON      "Copy All",IDC_BTN_CPALL,167,131,51,14
 END
 
-IDD_IN_PROGRESS DIALOG DISCARDABLE  0, 0, 187, 12
-STYLE WS_POPUP | WS_BORDER
+IDD_IN_PROGRESS DIALOG  0, 0, 187, 12
+STYLE DS_SETFONT | WS_POPUP | WS_BORDER
 FONT 10, "System"
 BEGIN
-    CONTROL         "Progress1",IDC_IN_PRG,"msctls_progress32",PBS_SMOOTH,0,
-                    0,187,12
+    CONTROL         "Progress1",IDC_IN_PRG,"msctls_progress32",PBS_SMOOTH,0,0,187,12
 END
 
-IDD_DLG_GRAPH DIALOG DISCARDABLE  0, 0, 347, 244
-STYLE WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU | WS_THICKFRAME
+IDD_DLG_GRAPH DIALOG  0, 0, 347, 244
+STYLE DS_SETFONT | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU | WS_THICKFRAME
 CAPTION "Execution Graph"
 FONT 10, "System"
 BEGIN
 END
 
-IDD_OPT_MTF DIALOG DISCARDABLE  0, 0, 252, 204
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_OPT_MTF DIALOG  0, 0, 252, 204
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Mtf Options"
 FONT 10, "Kristen ITC"
 BEGIN
-    LISTBOX         IDC_LST_MARK,13,21,121,89,LBS_NOINTEGRALHEIGHT | 
-                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LST_MARK,13,21,121,89,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDT_BEGIN,13,119,122,12,ES_AUTOHSCROLL
     PUSHBUTTON      "Add",IDC_OPT_ADD,19,137,53,13
     PUSHBUTTON      "Delete",IDC_OPT_REMOVE,83,137,50,13
     GROUPBOX        "New Form Marks",-1,7,7,134,155
 END
 
-IDD_OPT_COLOR DIALOG DISCARDABLE  0, 0, 326, 204
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_OPT_COLOR DIALOGEX 0, 0, 326, 204
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Coloring"
-FONT 10, "Kristen ITC"
+FONT 10, "Kristen ITC", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Preview:",IDC_STATIC,7,7,224,190
-    CONTROL         "Value",IDC_RD_Value,"Button",BS_AUTORADIOBUTTON,275,76,
-                    37,11
-    CONTROL         "Range",IDC_RD_Range,"Button",BS_AUTORADIOBUTTON,237,17,
-                    37,11
+    CONTROL         "Value",IDC_RD_Value,"Button",BS_AUTORADIOBUTTON,275,76,37,11
+    CONTROL         "Range",IDC_RD_Range,"Button",BS_AUTORADIOBUTTON,237,17,37,11
     GROUPBOX        "For:",IDC_STATIC,232,7,87,97
-    CONTROL         "Mcmd",IDC_RD_Mcmd,"Button",BS_AUTORADIOBUTTON,237,29,37,
-                    11
-    CONTROL         "Publish",IDC_RD_Publish,"Button",BS_AUTORADIOBUTTON,275,
-                    41,37,11
-    CONTROL         "Parameter",IDC_RD_Parameter,"Button",BS_AUTORADIOBUTTON,
-                    275,53,37,11
-    CONTROL         "Argument",IDC_RD_Argument,"Button",BS_AUTORADIOBUTTON,
-                    275,65,37,11
-    CONTROL         "RPColor",IDC_RD_RPColor,"Button",BS_AUTORADIOBUTTON,275,
-                    89,37,11
-    CONTROL         "Select",IDC_RD_Select,"Button",BS_AUTORADIOBUTTON,237,
-                    41,37,11
-    CONTROL         "Update",IDC_RD_Update,"Button",BS_AUTORADIOBUTTON,237,
-                    52,37,11
-    CONTROL         "Insert",IDC_RD_Insert,"Button",BS_AUTORADIOBUTTON,237,
-                    64,37,11
-    CONTROL         "Delete",IDC_RD_Delete,"Button",BS_AUTORADIOBUTTON,237,
-                    75,37,11
-    CONTROL         "LPColor",IDC_RD_LPColor,"Button",BS_AUTORADIOBUTTON,237,
-                    88,37,11
+    CONTROL         "Mcmd",IDC_RD_Mcmd,"Button",BS_AUTORADIOBUTTON,237,29,37,11
+    CONTROL         "Publish",IDC_RD_Publish,"Button",BS_AUTORADIOBUTTON,275,41,37,11
+    CONTROL         "Parameter",IDC_RD_Parameter,"Button",BS_AUTORADIOBUTTON,275,53,37,11
+    CONTROL         "Argument",IDC_RD_Argument,"Button",BS_AUTORADIOBUTTON,275,65,37,11
+    CONTROL         "RPColor",IDC_RD_RPColor,"Button",BS_AUTORADIOBUTTON,275,89,37,11
+    CONTROL         "Select",IDC_RD_Select,"Button",BS_AUTORADIOBUTTON,237,41,37,11
+    CONTROL         "Update",IDC_RD_Update,"Button",BS_AUTORADIOBUTTON,237,52,37,11
+    CONTROL         "Insert",IDC_RD_Insert,"Button",BS_AUTORADIOBUTTON,237,64,37,11
+    CONTROL         "Delete",IDC_RD_Delete,"Button",BS_AUTORADIOBUTTON,237,75,37,11
+    CONTROL         "LPColor",IDC_RD_LPColor,"Button",BS_AUTORADIOBUTTON,237,88,37,11
     GROUPBOX        "Set:",IDC_STATIC,232,106,87,66
-    CONTROL         "Slider1",IDC_SLD_R,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,242,118,71,9
+    CONTROL         "Slider1",IDC_SLD_R,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,242,118,71,9
     LTEXT           "R:",IDC_STATIC,236,116,8,9
-    CONTROL         "Slider1",IDC_SLD_G,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,242,133,71,9
+    CONTROL         "Slider1",IDC_SLD_G,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,242,133,71,9
     LTEXT           "G:",IDC_STATIC,235,132,8,9
-    CONTROL         "Slider1",IDC_SLD_B,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,242,149,71,9
+    CONTROL         "Slider1",IDC_SLD_B,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,242,149,71,9
     LTEXT           "B:",IDC_STATIC,235,148,8,9
-    CONTROL         "",IDC_EDT_LP,"RICHEDIT",ES_MULTILINE | ES_READONLY | 
-                    WS_BORDER | WS_TABSTOP,7,17,90,180
-    CONTROL         "",IDC_EDT_RP,"RICHEDIT",ES_MULTILINE | ES_READONLY | 
-                    WS_BORDER | WS_TABSTOP,97,17,134,180
     LTEXT           "value",IDC_STC_VAL,236,162,66,8
     PUSHBUTTON      "Reset Default",IDC_BTN_RESET,232,177,87,14
-    CONTROL         "Beyond",IDC_RD_Beyond,"Button",BS_AUTORADIOBUTTON,275,
-                    17,37,11
-    CONTROL         "Error",IDC_RD_Error,"Button",BS_AUTORADIOBUTTON,275,28,
-                    37,11
+    CONTROL         "Beyond",IDC_RD_Beyond,"Button",BS_AUTORADIOBUTTON,275,17,37,11
+    CONTROL         "Error",IDC_RD_Error,"Button",BS_AUTORADIOBUTTON,275,28,37,11
+    CONTROL         "",IDC_EDT_LP,"RichEdit20A",ES_MULTILINE | ES_READONLY | WS_BORDER | WS_TABSTOP,7,14,88,183
+    CONTROL         "",IDC_EDT_RP,"RichEdit20A",ES_MULTILINE | ES_READONLY | WS_BORDER | WS_TABSTOP,95,14,136,183
 END
 
-IDD_DLG_SPLT_FILE DIALOG DISCARDABLE  0, 0, 274, 103
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_DLG_SPLT_FILE DIALOG  0, 0, 274, 103
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Split File"
 FONT 10, "Constantia"
 BEGIN
@@ -355,12 +319,11 @@ BEGIN
     LTEXT           "Split Size:",IDC_STATIC,14,36,33,12
     EDITTEXT        IDC_EDT_SPLIT_SIZE,49,35,171,12,ES_AUTOHSCROLL
     LTEXT           "Mb",IDC_STATIC,222,36,11,8
-    CONTROL         "Split according to  thread id",IDC_CHK_THD_SPLT,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,49,53,130,14
+    CONTROL         "Split according to  thread id",IDC_CHK_THD_SPLT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,49,53,130,14
 END
 
-IDD_FILE_EXPORT DIALOG DISCARDABLE  0, 0, 247, 93
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_FILE_EXPORT DIALOG  0, 0, 247, 93
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Export to..."
 FONT 10, "Tahoma"
 BEGIN
@@ -369,30 +332,26 @@ BEGIN
     LTEXT           "Save To:",IDC_STATIC,10,16,32,10
     EDITTEXT        IDC_EXPORT_FILE_NAME,42,16,131,12,ES_AUTOHSCROLL
     PUSHBUTTON      "Open...",IDC_EXPORT_BTN_OPEN,179,15,46,13
-    CONTROL         "Nodes Only",IDC_EXPORT_CHK_NDOLY,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,42,43,56,19
+    CONTROL         "Nodes Only",IDC_EXPORT_CHK_NDOLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,42,43,56,19
     LTEXT           "From ID:",IDC_STATIC,11,33,29,12
     EDITTEXT        IDC_EXPORT_EDT_FRM,42,33,43,12,ES_AUTOHSCROLL
     LTEXT           "To ID:",IDC_STATIC,108,33,23,12
     EDITTEXT        IDC_EXPORT_EDT_TO,130,33,43,12,ES_AUTOHSCROLL
-    CONTROL         "Selected Node",IDC_EXPORT_CHK_SELOLY,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,131,44,61,19
+    CONTROL         "Selected Node",IDC_EXPORT_CHK_SELOLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,131,44,61,19
 END
 
-IDD_DLG_TRANSF DIALOG DISCARDABLE  0, 0, 159, 75
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_DLG_TRANSF DIALOG  0, 0, 159, 75
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Transfer trace to peer:"
 FONT 10, "System"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,16,42,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,90,42,50,14
     LTEXT           "IP:",IDC_STATIC,9,18,12,8
-    CONTROL         "IPAddress1",IDC_IPADDR,"SysIPAddress32",WS_TABSTOP,22,
-                    15,109,15
+    CONTROL         "IPAddress1",IDC_IPADDR,"SysIPAddress32",WS_TABSTOP,22,15,109,15
 END
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -415,18 +374,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "Tra MFC Application\0"
-            VALUE "FileVersion", "1, 0, 0, 1\0"
-            VALUE "InternalName", "Tra\0"
-            VALUE "LegalCopyright", "Copyright (C) 2010\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "Tra.EXE\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Tra Application\0"
-            VALUE "ProductVersion", "1, 0, 0, 1\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "FileDescription", "Tra MFC Application"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Tra"
+            VALUE "LegalCopyright", "Copyright (C) 2010"
+            VALUE "OriginalFilename", "Tra.EXE"
+            VALUE "ProductName", "Tra Application"
+            VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END
     BLOCK "VarFileInfo"
@@ -435,8 +389,6 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -444,7 +396,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -526,18 +478,18 @@ END
 // String Table
 //
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE 
 BEGIN
     IDR_MAINFRAME           "\nTrace Digger\nTrace Digger\nTra Files (*.out)\n.out\nTra.Document\nTra Document"
 END
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE 
 BEGIN
     AFX_IDS_APP_TITLE       "Trace Digger"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
@@ -549,7 +501,7 @@ BEGIN
     ID_INDICATOR_SELLEN     "Selection length"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_FILE_OPEN            "Open an existing document\nOpen trace file"
     ID_FILE_CLOSE           "Close the active document\nClose"
@@ -557,14 +509,14 @@ BEGIN
     ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
     ID_HELP                 "Open help document\nOpen help"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_FILE_MRU_FILE1       "Open this document"
     ID_FILE_MRU_FILE2       "Open this document"
@@ -584,18 +536,18 @@ BEGIN
     ID_FILE_MRU_FILE16      "Open this document"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -610,13 +562,13 @@ BEGIN
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -627,7 +579,7 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     ID_OPT_SETTING          "Set options for analyze trace file."
     IDM_FIND_MCMD           "Search String in Tree view."
@@ -638,7 +590,7 @@ BEGIN
     IDM_PERFORM_ALL         "Sort all mcmds in the tree by time performance(including SQL).\nSort all nodes by time"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     IDM_PERFORM_SEL         "Sort all child mcmds performance of selected mcmd.\nSort selected node by time"
     IDM_SHOW_PARMCMD        "Show parent mcmd of selected mcmd\nShow parent mcmd"
@@ -652,7 +604,7 @@ BEGIN
     IDM_SHOW_BKMRK          "Create a book mark here."
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     IDM_EXP_MCMD            "Expand All Nodes."
     IDM_TOG_MCMD            "Expand/Collapse all nodes"
