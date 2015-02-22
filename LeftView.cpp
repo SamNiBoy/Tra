@@ -489,7 +489,7 @@ void CLeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 
 	CTraDoc *pDoc = GetDocument();
 	CMcmd* pCurMcmd = NULL, *pTopMcmd = NULL;
-	int imgID = 0;
+	int imgID = 0, i;
 
 	if(pDoc->m_MHreeItem_To_Mcmd.Lookup(hTreeItem, (void*&)pCurMcmd))
 	{
@@ -545,7 +545,7 @@ void CLeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 
 
 			//delete decedents
-		    for(long i= pTopMcmd->ID; i< pDoc->m_ObjArrMcmds.GetSize(); i++)
+		    for(i= pTopMcmd->ID; i< pDoc->m_ObjArrMcmds.GetSize(); i++)
 			{
 				pCurMcmd = (CMcmd*)pDoc->m_ObjArrMcmds[i];
 				if(pCurMcmd->level <= pTopMcmd->level)
@@ -554,7 +554,7 @@ void CLeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 					CTC.DeleteItem(hItem);
 			}
 			//reinsert all decedents
-		    for(int i= pTopMcmd->ID; i< pDoc->m_ObjArrMcmds.GetSize(); i++)
+		    for(i= pTopMcmd->ID; i< pDoc->m_ObjArrMcmds.GetSize(); i++)
 			{
 				pCurMcmd = (CMcmd*)pDoc->m_ObjArrMcmds[i];
 				if(pCurMcmd->level <= pTopMcmd->level)

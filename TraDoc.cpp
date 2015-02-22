@@ -542,6 +542,7 @@ void CTraDoc::UpdateView()
              long tot_period_trace = pLst->end_time_stmp - pFst->beg_time_stmp;
              double thresh_hld = m_OptMoca->m_dThreshVal;
 			 long totlinenum = m_OptMoca->m_iMaxLineNum;
+			 int i;
 			 CTC.ShowWindow(SW_HIDE);
 			 CTC.DeleteAllItems();
 
@@ -556,7 +557,7 @@ void CTraDoc::UpdateView()
 
 			 bool FirstNodeFlg = 1;
 			 
-			 for(long i=0; i< totalMcmd && !bShowBKMKOnly; i++)
+			 for(i=0; i< totalMcmd && !bShowBKMKOnly; i++)
 			 {
 				 pMcmd = (CMcmd *)m_ObjArrMcmds[i];
 				 pNext = i<totalMcmd - 1 ? (CMcmd *)m_ObjArrMcmds[i+1] : NULL;
@@ -642,7 +643,7 @@ void CTraDoc::UpdateView()
 			 pPrg->ShowWindow(SW_HIDE);
 			 delete pPrg;
 
-			 for(int i=0; i< totalMcmd && bShowBKMKOnly; i++)
+			 for(i=0; i< totalMcmd && bShowBKMKOnly; i++)
 			 {
 				 pMcmd = (CMcmd *)m_ObjArrMcmds[i];
 

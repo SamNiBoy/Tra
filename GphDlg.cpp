@@ -58,7 +58,7 @@ void CGphDlg::OnPaint()
 	
 	// TODO: Add your message handler code here
 	CRect rt;
-	int McmdCnt = 0;
+	int McmdCnt = 0, i;
 	this->GetClientRect(&rt);
 	CBrush b=RGB(120,120,120);
 	
@@ -67,7 +67,7 @@ void CGphDlg::OnPaint()
 	if(m_RootMcmd)
 	{
 		McmdCnt++;
-		for(int i = m_RootMcmd->ID; i< m_pDoc->m_ObjArrMcmds.GetSize(); i++)
+		for(i = m_RootMcmd->ID; i< m_pDoc->m_ObjArrMcmds.GetSize(); i++)
 		{
 			CMcmd *pCur = (CMcmd*) m_pDoc->m_ObjArrMcmds[i];
 			if(pCur->level <= m_RootMcmd->level)
@@ -101,7 +101,7 @@ void CGphDlg::OnPaint()
 		dc.Rectangle(layer);
 		CBrush b2=RGB(255,255,0);
 		dc.SelectObject(b2);
-		for(int i = m_RootMcmd->ID - 1; i< m_RootMcmd->ID + McmdCnt - 1; i++)
+		for(i = m_RootMcmd->ID - 1; i< m_RootMcmd->ID + McmdCnt - 1; i++)
 		{
 			CMcmd *pCur = (CMcmd*) m_pDoc->m_ObjArrMcmds[i];
 		    pCur->DrawSelf(&dc, rt);
