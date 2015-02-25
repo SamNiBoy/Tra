@@ -9,7 +9,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // CColorDlg dialog
-enum SELECTION{RANGE,BEYOND,ERR,MCMD,SELECT,UPDATE,INSERT,DEL,LPCOLOR,RPCOLOR,VALUE,PARAMETER,ARGUMENT,PUBLISH};
+enum SELECTION{RANGE,BEYOND,ERR,MCMD,SELECT,UPDATE,INSERT,DEL,LPCOLOR,RPCOLOR,VALUE,PARAMETER,ARGUMENT,PUBLISH, NONE};
 class CColorDlg : public CPropertyPage
 {
 	DECLARE_DYNCREATE(CColorDlg)
@@ -86,6 +86,8 @@ protected:
 	afx_msg void OnRDError();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
+public:
 
 };
 

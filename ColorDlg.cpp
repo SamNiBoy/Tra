@@ -111,6 +111,8 @@ BEGIN_MESSAGE_MAP(CColorDlg, CPropertyPage)
 	ON_BN_CLICKED(IDC_RD_Beyond, OnRDBeyond)
 	ON_BN_CLICKED(IDC_RD_Error, OnRDError)
 	//}}AFX_MSG_MAP
+    ON_WM_PAINT()
+    ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -541,7 +543,9 @@ void CColorDlg::ColoringSelection(SELECTION sel)
 
 BOOL CColorDlg::OnInitDialog() 
 {
-	CPropertyPage::OnInitDialog();
+    //CPropertyPage::OnInitDialog();
+
+    UpdateData(false);
 
 	SetTextFont();
 
@@ -555,6 +559,9 @@ BOOL CColorDlg::OnInitDialog()
 
 	pSB->SetRange(0,255,true);
 
+
+    m_eSelected = NONE;
+/*
 	CButton *pRd = NULL;
 	switch(m_eSelected)
 	{
@@ -624,9 +631,7 @@ BOOL CColorDlg::OnInitDialog()
 		pRd = (CButton*)GetDlgItem(IDC_RD_Value);
         pRd->SetCheck(true);
 		break;
-	}
-
-	UpdateData(false);
+    }*/
 	
 	ReColoring();
 
@@ -820,15 +825,15 @@ void CColorDlg::OnBtnReset()
 	m_ERRClr = RGB(255,0,0);
     m_MCMDClr  = RGB(0, 0,0);     
     m_SELECTClr= RGB(0, 155,0);
-    m_UPDATEClr= RGB(0, 155,155);   
-    m_INSERTClr= RGB(155, 155,0);  
-    m_DELClr   = RGB(155, 0,155);  
-    m_LPCOLORClr= RGB(150, 150, 150);
-    m_RPCOLORClr= RGB(150, 150, 150);
-    m_VALUEClr  = RGB(200,00,00);    
-    m_PARAMETERClr= RGB(255,255,0);
+    m_UPDATEClr= RGB(0, 155,155);
+    m_INSERTClr= RGB(155, 155,0);
+    m_DELClr   = RGB(155, 0,155);
+    m_LPCOLORClr= RGB(255, 255, 255);
+    m_RPCOLORClr= RGB(255, 255, 255);
+    m_VALUEClr  = RGB(0,172,00);
+    m_PARAMETERClr= RGB(255,150,0);
     m_ARGUMENTClr = RGB(255,0,0);
-    m_PUBLISHClr  = RGB(0,255,255); 
+    m_PUBLISHClr  = RGB(0,255,255);
 	UpdateData(false);
 
 	ReColoring();

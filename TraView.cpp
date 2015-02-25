@@ -184,6 +184,8 @@ void CTraView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 	if (!pDoc->m_pf)
 		return;
+    CRichEditCtrl &CRE = GetRichEditCtrl();
+    CRE.SetBackgroundColor(false, pDoc->m_OptColor->m_RPCOLORClr);
 
 	CMcmd *pCurMcmd = (CMcmd *)pDoc->m_ObjArrMcmds[pDoc->m_iFocusMcmd-1];
 

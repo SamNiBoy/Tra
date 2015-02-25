@@ -129,6 +129,8 @@ int COptDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
+AFX_STATIC_DATA int _afxPropSheetButtons[] = { IDOK, IDCANCEL, ID_APPLY_NOW, IDHELP };
+
 BOOL COptDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -141,6 +143,42 @@ BOOL COptDlg::OnInitDialog()
 		pLB->AddString(begs[i]);
 		pLE->AddString(ends[i]);
 	}
+
+    CMainFrame *pMain = (CMainFrame*)::AfxGetApp()->GetMainWnd();
+    CTraDoc *pDoc = (CTraDoc*)pMain->GetActiveDocument();
+
+    for (int i = 0; i < _countof(_afxPropSheetButtons); i++)
+    {
+        HWND hWndButton = ::GetDlgItem(pDoc->m_pSheet->m_hWnd, _afxPropSheetButtons[i]);
+        if (hWndButton != NULL && (_afxPropSheetButtons[i] == ID_APPLY_NOW || _afxPropSheetButtons[i] == IDHELP))
+        {
+            ::ShowWindow(hWndButton, SW_HIDE);
+            ::EnableWindow(hWndButton, FALSE);
+        }
+        else if (hWndButton != NULL)
+        {
+            CRect btnRt, sheetRt;
+            ::GetWindowRect(hWndButton, &btnRt);
+            ::GetWindowRect(pDoc->m_pSheet->m_hWnd, &sheetRt);
+
+            CSize btnSz(100, 25);
+
+            pDoc->m_pSheet->ScreenToClient(&btnRt);
+            pDoc->m_pSheet->ScreenToClient(&sheetRt);
+
+            btnSz.cx = (sheetRt.right - sheetRt.left) / 4;
+
+            if (_afxPropSheetButtons[i] == IDOK)
+            {
+                ::MoveWindow(hWndButton, sheetRt.left + (sheetRt.right - sheetRt.left)/8, btnRt.top, btnSz.cx, btnSz.cy, false);
+            }
+            else if (_afxPropSheetButtons[i] == IDCANCEL)
+            {
+                ::MoveWindow(hWndButton, sheetRt.left + (sheetRt.right - sheetRt.left)*5/8, btnRt.top, btnSz.cx, btnSz.cy, false);
+            }
+
+        }
+    }
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }

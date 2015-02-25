@@ -735,12 +735,25 @@ void CTraDoc::OnOptSetting()
 	}
 
 	BOOL OriShowAll = m_OptMoca->m_bShowAll;
-	if(m_pSheet->DoModal() == IDOK)
+    CTraApp *pApp = (CTraApp *) ::AfxGetApp();
+    pApp->ReadOptionsFromINI(this);
+
+    long ans = m_pSheet->DoModal();
+    if (ans == IDOK)
 	{
+        pApp->WriteOptionsToINI(this);
 		if (OriShowAll != m_OptMoca->m_bShowAll)
 		    m_bRefountRPanel = 1;
 		this->OnRefreshView();
 	}
+    else if (ans == IDCANCEL)
+    {
+
+        pApp->ReadOptionsFromINI(this);
+
+        //m_pSheet->UpdateData(FALSE);
+
+    }
 }
 
 
