@@ -58,8 +58,8 @@ CColorDlg::CColorDlg() : CPropertyPage(CColorDlg::IDD)
     m_UPDATEClr= RGB(0, 155,155);   
     m_INSERTClr= RGB(155, 155,0);  
     m_DELClr   = RGB(155, 0,155);  
-    m_LPCOLORClr= RGB(150, 150, 150);
-    m_RPCOLORClr= RGB(150, 150, 150);
+    m_LPCOLORClr= RGB(250, 250, 250);
+    m_RPCOLORClr= RGB(250, 250, 250);
     m_VALUEClr  = RGB(200,200,00);    
     m_PARAMETERClr= RGB(255,255,0);
     m_ARGUMENTClr = RGB(255,0,0);
