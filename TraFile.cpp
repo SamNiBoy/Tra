@@ -239,10 +239,42 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 		exit(0);
 	}
 
+
+	char c[10];
+	memset(c,0, sizeof(c));
 	//Seek to skip first 4 chars which defines file format.
 	fin.Write("CVRT", 4);
+	long fileSize = fin.GetLength();
 
+    CInProgress *pPrg = new CInProgress;
+	pPrg->Create(IDD_IN_PROGRESS, ::AfxGetApp()->GetMainWnd());
+	pPrg->SetOwner(::AfxGetApp()->GetMainWnd());
+	pPrg->CenterWindow();
+	pPrg->ShowWindow(SW_SHOW);
+	pPrg->m_cInPrg.SetRange(0,100);
+
+	long i = 4;
+	while(fin.Read(c, 1))
+	{
+		i++;
+		if (c[0] == '\n')
+		{
+			fin.Seek(-3, SEEK_CUR);
+			fin.Write(" \r\n",3);
+			fin.Seek(3, SEEK_CUR);
+		}
+	
+		memset(c,0, sizeof(c));
+		if (i % 1000 == 0)
+		{
+			pPrg->m_cInPrg.SetPos((int)(i*1.0/fileSize*100.0));
+			pPrg->m_cInPrg.SetActiveWindow();
+		}
+	}
 	fin.Close();
+	//fileName = newFileName;
+    pPrg->ShowWindow(SW_HIDE);
+	delete pPrg;
 }
 
 bool CTraFile::InitFile(CString fileName,
@@ -253,24 +285,19 @@ bool CTraFile::InitFile(CString fileName,
 {
 	m_pLines = & Lines;
 
-	CFile fin;
-
-	if (!fin.Open(fileName, CFile::modeRead))
+	if (!Open(fileName, CFile::modeRead))
 	{
 		//cout<<"Can not open file "<<fileName<<endl;
 		exit(0);
 	}
 
-    long pos, fileSize = fin.GetLength();
+	CString line;
+
+    long pos, fileSize = GetLength();
 
 	BOOL doSupMod = false;
 
 	doSupMod = SupMod;
-
-	long bufSize = 1024*1024;
-
-	char* lineBuf = new char[bufSize];
-    bool readEnd= false;
 
 	if (!doSupMod)
 	{
@@ -294,36 +321,9 @@ bool CTraFile::InitFile(CString fileName,
 	   m_posOfLines.RemoveAll();
 	   //m_posOfLines.SetSize(fileSize /100);
 	   long lineId = 0;
-	   pos = fin.GetPosition();
-	   
-	   CString line;
-	   char c;
-	   int i;
-	   while(fin.Read(&c, 1))
-	   {
-		   if (c == '\r')
-			   continue;
-           memset(lineBuf, 0, bufSize);
-		   i= 0;
-		   readEnd = true;
-
-		   do {
-
-		       if(c != '\n' && c != '\r')
-		       {
-			       lineBuf[i++] = c;
-		       }
-			   else {
-				   readEnd = false;
-				   break;
-			   }
-		   }
-		   while (fin.Read(&c, 1));
-
-		   if (i <= 0)
-			   continue;
-
-		   line = LPSTR(lineBuf);
+	   pos = GetPosition();
+	    while(ReadString(line))
+		{
 	        if(trcTyp != MTFTRACE && line.GetLength()>0 && line.Find("CTerminalInputReader") >= 0)
 			{
 	            trcTyp = MTFTRACE;
@@ -340,70 +340,23 @@ bool CTraFile::InitFile(CString fileName,
 		m_lTotLin = 0;
 		Lines.RemoveAll();
 		m_posOfLines.RemoveAll();
+		//m_posOfLines.SetSize(fileSize /100);
+		//Lines.SetSize(fileSize /100);
+		pos = GetPosition();
 
-		pos = fin.GetPosition();
-
-	   char c;
-	   CString line;
-	   int i = 0;
-	  
-	   while(fin.Read(&c, 1))
-	   {
-		   if (c == '\r')
-			   continue;
-           memset(lineBuf, 0, bufSize);
-		   i= 0;
-		   readEnd = true;
-
-		   do {
-
-		       if(c != '\n' && c != '\r')
-		       {
-			       lineBuf[i++] = c;
-		       }
-			   else {
-				   readEnd = false;
-				   break;
-			   }
-		   }
-		   while (fin.Read(&c, 1));
-
-		   if (i <= 0)
-			   continue;
-
-		   line = LPSTR(lineBuf);
+	    while(ReadString(line))
+		//while(CUtil::ReadLineFromFile((CStdioFile &)*this, line))
+		{
 		    if(trcTyp != MTFTRACE && line.GetLength()>0 && line.Find("CTerminalInputReader") >= 0)
 			{
 	    	    trcTyp = MTFTRACE;
 			}
 			m_posOfLines.InsertAt(m_lTotLin, pos);
-			
+			pos = GetPosition();
 			Lines.InsertAt(m_lTotLin, line);
 			m_lTotLin++;
-
-			if (readEnd)
-			{
-				break;
-			}
-			else {
-				pos = fin.GetPosition();
-			}
-			if (m_lTotLin == 2182 || true)
-			{
-			TRACE("m_lTotLin:%ld\n", m_lTotLin);
-			//TRACE("line:" + line);
-			}
 		}
 	}
-
-	fin.Close();
-
-	if (!Open(fileName, CFile::modeRead))
-	{
-		//cout<<"Can not open file "<<fileName<<endl;
-		exit(0);
-	}
-
     return true;
 }
 
