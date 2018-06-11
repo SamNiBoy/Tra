@@ -18,6 +18,7 @@ public:
 public:
 	unsigned long GetOffSetForLine(long LineId);
 	bool InitFile(CString fileName,CStringArray& m_strArrLines, BOOL & ShowAll, BOOL &SubMod, TRACETYPE &TT);
+	bool CTraFile::ConvertToDosFormat(CString & fileName);
 	unsigned long GetTotLin();
 	void ShowInfo();
 	bool GetLine(CString &line, long lineId);

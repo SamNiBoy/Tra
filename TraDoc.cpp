@@ -1152,11 +1152,23 @@ void CTraDoc::OpenFile(CString &fileName)
 	ClearDoc();
 	m_trcTyp = MOCATRACE;
     m_sFileName = fileName;
+	m_pf = new CTraFile();
 
 	if (!IsDosFormat(fileName))
-		return;
-
-	m_pf = new CTraFile();
+	{
+		long ret = AfxMessageBox("Converting to DOS format?", MB_YESNO|MB_ICONQUESTION);
+		if (ret == IDYES)
+		{
+		    m_pf->ConvertToDosFormat(fileName);
+			m_sFileName = fileName;
+		}
+		else
+		{
+			::AfxMessageBox("File " + m_sFileName + " is not a DOS format, please convert to DOS format before processing.", MB_OK|MB_ICONINFORMATION);
+			return;
+		}
+	}
+	
 	m_pf->InitFile(fileName, 
 		           this->m_strArrLines,
 				   this->m_OptMoca->m_bShowAll,
@@ -1576,7 +1588,7 @@ bool CTraDoc::IsDosFormat(CString &filename)
 	{
 		if (buff[i-1] != '\r' && buff[i] == '\n')
 		{
-			::AfxMessageBox("File " + filename + " is not a DOS format, please convert to DOS format before processing.", MB_OK|MB_ICONINFORMATION);
+			//::AfxMessageBox("File " + filename + " is not a DOS format, please convert to DOS format before processing.", MB_OK|MB_ICONINFORMATION);
 			fl.Close();
 			return false;
 		}
