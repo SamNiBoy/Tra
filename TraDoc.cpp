@@ -258,6 +258,10 @@ void CTraDoc::ExactMcmd()
 		trace.Format("Case:[%d], content:[%s], i+1:[%d]\n", flag, content, i+1);
 		fprintf(file, trace.GetBuffer(trace.GetLength()));
         #endif
+		        if (pLstMcmd)
+				{
+					pLstMcmd->GetTimeStamp(line, FALSE);
+				}
 				pMcmd = new CMcmd;
 				pMcmd->mcmd = content;
 				pMcmd->beglin = i+1;
@@ -311,6 +315,10 @@ void CTraDoc::ExactMcmd()
 		 case 4:
 		 case 5:
 		 case 6:
+			    if (pLstMcmd)
+				{
+					pLstMcmd->GetTimeStamp(line, FALSE);
+				}
 				pMcmd = new CMcmd;
 				pMcmd->mcmd = content;
 				pMcmd->beglin = i+1;
@@ -352,6 +360,7 @@ void CTraDoc::ExactMcmd()
 			       pLstMcmd->m_Prefix =  content;
 				   pLstMcmd->m_TxtColor = RGB(255,0,0);
 				   pLstMcmd->m_Bold = true;
+				   pLstMcmd->GetTimeStamp(line, FALSE);
 		#ifdef TRACE_ON
 		trace.Format("Case:[%d], content:[%s], i+1:[%d]\n", flag, content, i+1);
 		fprintf(file, trace.GetBuffer(trace.GetLength()));
@@ -380,6 +389,10 @@ void CTraDoc::ExactMcmd()
 		case 9:
 			break;
 		case 10:
+			    if (pLstMcmd)
+				{
+					pLstMcmd->GetTimeStamp(line, FALSE);
+				}
 				pMcmd = new CMcmd;
 				pMcmd->mcmd = content;
 				pMcmd->beglin = i+1;
