@@ -530,10 +530,6 @@ void CTraDoc::UpdateView()
 
 			 ((CLeftView*)pw)->m_bAddItemFinished = false;
 
-			 CInProgress *pPrg = new CInProgress;
-
-			 pPrg->Create(IDD_IN_PROGRESS);
-
 			 CMcmd *pMcmd , *pNext, *pFstMcmd;
 			 HTREEITEM hTreeItem, hParTreeItem;
 			 CMcmd *pFst = (CMcmd *)m_ObjArrMcmds[0];
@@ -550,9 +546,7 @@ void CTraDoc::UpdateView()
 			 m_MHreeItem_To_Mcmd.RemoveAll();
 			 m_MpMcmd_To_hHreeItem.InitHashTable(m_ObjArrMcmds.GetSize() + (int)(m_ObjArrMcmds.GetSize()*0.2));
 			 m_MHreeItem_To_Mcmd.InitHashTable(m_ObjArrMcmds.GetSize() + (int)(m_ObjArrMcmds.GetSize()*0.2));
-			 pPrg->CenterWindow();
-	         pPrg->ShowWindow(SW_SHOW);
-	         pPrg->m_cInPrg.SetRange(0,100);
+
 			 int imgID = 1;
 
 			 bool FirstNodeFlg = 1;
@@ -567,10 +561,6 @@ void CTraDoc::UpdateView()
 				 else 
 					 imgID = 1;
 
-				 if((i+1) % 100 == 0)
-				 {
-					 pPrg->m_cInPrg.SetPos((int)(i*1.0/m_ObjArrMcmds.GetSize()*100.0));
-				 }
 				 switch(pMcmd->mcmdTyp)
 				 {
 				 case 1:
@@ -640,8 +630,6 @@ void CTraDoc::UpdateView()
 					m_MHreeItem_To_Mcmd.SetAt(hTreeItem, pMcmd);
 				 }
 			 }
-			 pPrg->ShowWindow(SW_HIDE);
-			 delete pPrg;
 
 			 for(i=0; i< totalMcmd && bShowBKMKOnly; i++)
 			 {
