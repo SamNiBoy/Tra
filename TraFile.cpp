@@ -233,25 +233,17 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 {
 	CFile fin;
 	
-	if (!fin.Open(fileName, CFile::modeRead))
+	if (!fin.Open(fileName, CFile::modeRead | CFile::modeReadWrite))
 	{
 		//cout<<"Can not open file "<<fileName<<endl;
 		exit(0);
 	}
 
-	CString newFileName = fileName+ ".bak";
-    CFile fout;  
-
-	if (!fout.Open(newFileName, CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone))
-	{
-		//cout<<"Can not open file "<<fileName<<endl;
-		exit(0);
-	}
 
 	char c[10];
 	memset(c,0, sizeof(c));
 	//Seek to skip first 4 chars which defines file format.
-	fin.Seek(4, SEEK_CUR);
+	fin.Write("CVRT", 4);
 	long fileSize = fin.GetLength();
 
     CInProgress *pPrg = new CInProgress;
@@ -262,41 +254,25 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 	pPrg->m_cInPrg.SetRange(0,100);
 
 	long i = 4;
-
-	char buf[10000];
-
-	int bufCnt = 0;
-	memset(buf, 0, sizeof buf);
 	while(fin.Read(c, 1))
 	{
 		i++;
 		if (c[0] == '\n')
 		{
-			strcpy(c, "\r\n");
-			strncat(buf, c, 2);
-			bufCnt += 2;
+			fin.Seek(-3, SEEK_CUR);
+			fin.Write(" \r\n",3);
+			fin.Seek(3, SEEK_CUR);
 		}
-		else
-		{
-			strncat(buf, c, 1);
-			bufCnt += 1;
-		}		
+	
 		memset(c,0, sizeof(c));
 		if (i % 1000 == 0)
 		{
 			pPrg->m_cInPrg.SetPos((int)(i*1.0/fileSize*100.0));
-		}
-		if (bufCnt >= 9990)
-		{
-			fout.Write(buf, bufCnt);
-			fout.Flush();
-			bufCnt = 0;
-			memset(buf, 0, sizeof buf);
+			pPrg->m_cInPrg.SetActiveWindow();
 		}
 	}
-	fout.Close();
 	fin.Close();
-	fileName = newFileName;
+	//fileName = newFileName;
     pPrg->ShowWindow(SW_HIDE);
 	delete pPrg;
 }
