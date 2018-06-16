@@ -129,7 +129,7 @@ bool CTraFile::GetLines(CString &txt, long frm, long to)
 
 	    ASSERT(frm <= to);
 
-	     long TotLen, begpos = m_posOfLines[frm-1], endpos;
+	     ULONGLONG TotLen, begpos = m_posOfLines[frm-1], endpos;
 
     	endpos = to < m_posOfLines.GetSize() ? m_posOfLines[to] : GetLength();
 
@@ -244,7 +244,7 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 	memset(c,0, sizeof(c));
 	//Seek to skip first 4 chars which defines file format.
 	fin.Write("CVRT", 4);
-	long fileSize = fin.GetLength();
+	ULONGLONG fileSize = fin.GetLength();
 
     CInProgress *pPrg = new CInProgress;
 	pPrg->Create(IDD_IN_PROGRESS, ::AfxGetApp()->GetMainWnd());
@@ -275,6 +275,7 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 	//fileName = newFileName;
     pPrg->ShowWindow(SW_HIDE);
 	delete pPrg;
+	return true;
 }
 
 bool CTraFile::InitFile(CString fileName,
@@ -293,7 +294,7 @@ bool CTraFile::InitFile(CString fileName,
 
 	CString line;
 
-    long pos, fileSize = GetLength();
+    ULONGLONG pos, fileSize = GetLength();
 
 	BOOL doSupMod = false;
 

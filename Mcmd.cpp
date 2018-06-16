@@ -176,7 +176,7 @@ void CMcmd::SetDspStype()
 					CMcmd *LstChd = NULL;
 						for(int i = this->ID; i< pDoc->m_ObjArrMcmds.GetSize(); i++)
 						{
-							if(((CMcmd*)pDoc->m_ObjArrMcmds[i])->mcmdTyp == 10)
+							if(((CMcmd*)pDoc->m_ObjArrMcmds[i])->mcmdTyp == 10 || ((CMcmd*)pDoc->m_ObjArrMcmds[i])->level <= this->level)
 								break;
 							else if (((CMcmd*)pDoc->m_ObjArrMcmds[i])->level == 2)
 							{
@@ -187,8 +187,15 @@ void CMcmd::SetDspStype()
 						if(LstChd && LstChd->m_Prefix.Find("Status") >= 0)
 						{
 							this->m_TxtColor = LstChd->m_TxtColor;
-							this->m_Prefix = LstChd->m_Prefix;
-							this->m_Subfix = LstChd->m_Subfix;
+							if (this->m_Subfix.GetLength() > 0)
+							{
+							    this->m_Prefix = this->m_Subfix + ">" + LstChd->m_Prefix;
+							}
+							else
+							{
+								this->m_Prefix = LstChd->m_Prefix;
+							}
+							//this->m_Subfix = LstChd->m_Subfix;
 						}
 
 					break;

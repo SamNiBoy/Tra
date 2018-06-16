@@ -425,11 +425,12 @@ void CTraDoc::ExactMcmd()
 					pParMcmd->endlin = i+1;
 					ParStack.RemoveAt(ParStack.GetSize()-1);
 				}
+			    pLstMcmd = NULL;
 		#ifdef TRACE_ON
 		trace.Format("Case:[%d], content:[%s], i+1:[%d]\n", flag, content, i+1);
 		fprintf(file, trace.GetBuffer(trace.GetLength()));
         #endif
-				pLstMcmd = NULL;
+				
 		}
 		// if j increased because of no timestamp line, we skip those lines by set i=j, 
 		// here we set i = j-1 ,because for loop will increase i++;
