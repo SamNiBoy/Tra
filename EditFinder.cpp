@@ -120,7 +120,7 @@ BOOL CEditFinder::PreTranslateMessage(MSG* pMsg)
 			CString line;
 			int mcmdidx = 0;
 
-			text.MakeLower();
+            text.MakeLower();
 			pTVW->m_KeyWord = "";
 
 			int beg = 0;
@@ -155,7 +155,16 @@ BOOL CEditFinder::PreTranslateMessage(MSG* pMsg)
 
 				orgLine = line;
 				//line = pDoc->m_strArrLines[i];
-				line.MakeLower();
+				TRY
+                {
+                    line.MakeLower();
+                }
+                CATCH_ALL(e)
+                {
+                    continue;
+                }
+                END_CATCH_ALL
+				
 	        	if(line.Find(text) >= 0)
 				{
 					for( long j = mcmdidx ; j< pDoc->m_ObjArrMcmds.GetSize() ; j++)

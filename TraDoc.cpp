@@ -209,7 +209,7 @@ void CTraDoc::ExactMcmd()
 		//TRACE("i= '%ld'\n",i);
 		j = i + 1;
 
-		if (i == 73239)
+		if (i == 547)
 			TRACE("i = '%d'",i);
 
 		while (1)
@@ -269,6 +269,7 @@ void CTraDoc::ExactMcmd()
 				pMcmd->endlin = pMcmd->beglin;
 				pMcmd->ID = seqnum;
 				pMcmd->mcmdTyp = 1;
+
 
 				TRACE("Find mcmd at line [%ld], %s ", i+1, content);
 			
@@ -782,7 +783,15 @@ int CTraDoc::ParseLine(CString line, CString &mcmd)
 	static int WhatWeFound = -1;
 
 	//convert to lowcase to do non case match
-	line.MakeLower();
+    TRY
+	{
+	    line.MakeLower();
+	}
+	CATCH_ALL(e)
+	{
+		return 0;
+	}
+	END_CATCH_ALL
 
 
 	// Check if mcmd header.
@@ -1375,7 +1384,15 @@ int CTraDoc::ParseLineForMTF(CString line, CString &form)
 	static int NewFormFound = 0;
 
 	//convert to lowcase to do non case match
-	line.MakeLower();
+    TRY
+	{
+	    line.MakeLower();
+	}
+	CATCH_ALL(e)
+	{
+		return 0;
+	}
+	END_CATCH_ALL
 	// Check if mcmd header.
 	int cnt = this->m_OptMtf->marks.GetSize();
 	for(long i = 0; i< cnt; i++)

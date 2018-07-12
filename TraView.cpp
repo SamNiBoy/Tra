@@ -1115,7 +1115,14 @@ void CTraView::DecorateKeyWord(long begpos, long endpos)
 
 		CString text;
 		GetWindowText(text);
-		text.MakeLower();
+		TRY
+        {
+            text.MakeLower();
+        }
+        CATCH_ALL(e)
+        {
+        }
+        END_CATCH_ALL
 		text.Replace("\r\n", "\n");
 	    
 	    begpos = text.Find(m_KeyWord, begpos);
