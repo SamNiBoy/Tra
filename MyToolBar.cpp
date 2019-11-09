@@ -42,6 +42,7 @@ CFont ft;
 LOGFONT lf;
 int CMyToolBar::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
+	lpCreateStruct->cx = 60;
 	if (CToolBar::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
@@ -51,13 +52,13 @@ int CMyToolBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rc.left = 0;
 	rc.top = 0;
 	rc.bottom = rc.top + 30;
-	rc.right = rc.left + 360;
+	rc.right = rc.left + 400;
 	m_pEdit->Create(WS_CHILD | WS_VISIBLE| WS_TABSTOP |ES_WANTRETURN, rc, this, IDE_TOOLBAR_FIND);
 	//static CFont ft;
 
 	
-    lf.lfHeight = 27;                      // request a 12-pixel-height font
-    strcpy(lf.lfFaceName, "Arial");        // request a face name "Arial"
+    lf.lfHeight = 25;                      // request a 12-pixel-height font
+    strcpy(lf.lfFaceName, "Times New Roman");        // request a face name "Arial"
 	lf.lfWeight = FW_NORMAL;
 	ft.CreateFontIndirect(&lf);
 	//ft.CreatePointFont(160,"Arial");
@@ -65,8 +66,8 @@ int CMyToolBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pEdit->SetFont(&ft);
 	rc.bottom = rc.top + 30;
 	rc.left = rc.right+5;
-	rc.right = rc.left + 250;
-	m_pBtn->Create("In Focus Mcmd", BS_NOTIFY|BS_FLAT|WS_CHILD | WS_VISIBLE, rc, this, IDE_TOOLBAR_SERLFT);
+	rc.right = rc.left + 200;
+	m_pBtn->Create("In Mcmd", BS_NOTIFY|BS_FLAT|WS_CHILD | WS_VISIBLE, rc, this, IDE_TOOLBAR_SERLFT);
 
 	m_pBtn->SetButtonStyle(BS_AUTOCHECKBOX);
 	m_pBtn->SetCheck(false);
