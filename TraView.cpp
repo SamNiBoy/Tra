@@ -87,7 +87,7 @@ void CTraView::OnInitialUpdate()
             cf.wWeight = 50;
          	cf.yHeight = 165;
 	
-        	::lstrcpy(cf.szFaceName,"Arial");	
+        	::lstrcpy(cf.szFaceName,"Times New Roman");	
 
         	CRichEditCtrl &CRE = GetRichEditCtrl();
         	CRE.SetBackgroundColor(false, pDoc->m_OptColor->m_RPCOLORClr);
@@ -700,7 +700,7 @@ void CTraView::HighLightMcmd(CMcmd *pPreMcmd, CMcmd * pCurMcmd)
         cf.dwEffects = CFE_PROTECTED;
         cf.wWeight = 10;
 	    cf.yHeight = 150;
-		::lstrcpy(cf.szFaceName,"Arial");
+		::lstrcpy(cf.szFaceName,"Times New Roman");
 		this->SetCharFormat(cf);
 		CRE.SetSel(0,0);
 		}
@@ -729,7 +729,7 @@ void CTraView::HighLightMcmd(CMcmd *pPreMcmd, CMcmd * pCurMcmd)
         cf.dwEffects = CFE_PROTECTED;
 		cf.wWeight = 20;
 		cf.yHeight = 200;
-		::lstrcpy(cf.szFaceName,"Arial");
+		::lstrcpy(cf.szFaceName,"Times New Roman");
 		this->SetCharFormat(cf);
 		CRE.SetSel(0,0);
 
@@ -1018,7 +1018,7 @@ void CTraView::DecorateMcmd(CMcmd *pCurMcmd)
         cf.dwEffects = CFE_PROTECTED;
 		cf.wWeight = 20;
 		cf.yHeight = 200;
-		::lstrcpy(cf.szFaceName,"Arial");
+		::lstrcpy(cf.szFaceName,"Times New Roman");
 		this->SetCharFormat(cf);
 		CRE.SetSel(0,0);
 
@@ -1076,7 +1076,7 @@ void CTraView::UndecoratePreMcmd()
     cf.dwEffects = CFE_PROTECTED;                         
     cf.wWeight = 10;                                      
 	cf.yHeight = 150;                                       
-	::lstrcpy(cf.szFaceName,"Arial");                         
+	::lstrcpy(cf.szFaceName,"Times New Roman");                         
 	SetCharFormat(cf);                                        
 	CRE.SetSel(0,0);                                          
 }

@@ -155,6 +155,11 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 		return FALSE;
 	}
 
+	//250 is the transparency, 0 invisible
+
+	::SetWindowLong( m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);  
+    ::SetLayeredWindowAttributes( m_hWnd, 0, 255, LWA_ALPHA);
+
 	m_wndSplitter.ShowWindow(SW_HIDE);
 
 	return TRUE;
