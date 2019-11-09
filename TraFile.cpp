@@ -231,19 +231,32 @@ unsigned long CTraFile::GetTotLin()
 
 bool CTraFile::ConvertToDosFormat(CString & fileName)
 {
-	CFile fin;
+	CFile fin, fout;
+
+	int dotPos = fileName.Find(".");
+	int strLen = dotPos > 0 ? dotPos : fileName.GetLength();
+
+	CString fileOut = fileName.Left(strLen) + "_dos.log";
 	
-	if (!fin.Open(fileName, CFile::modeRead | CFile::modeReadWrite))
+	if (!fin.Open(fileName, CFile::modeRead))
+	{
+		//cout<<"Can not open file "<<fileName<<endl;
+		exit(0);
+	}
+	
+	
+	if (!fout.Open(fileOut, CFile::modeCreate|CFile::modeWrite))
 	{
 		//cout<<"Can not open file "<<fileName<<endl;
 		exit(0);
 	}
 
-
 	char c[10];
 	memset(c,0, sizeof(c));
+    char outLine[10000];
+	memset(outLine,0, sizeof(outLine));
 	//Seek to skip first 4 chars which defines file format.
-	fin.Write("CVRT", 4);
+	//strcpy(outLine,"CVRT");
 	ULONGLONG fileSize = fin.GetLength();
 
     CInProgress *pPrg = new CInProgress;
@@ -259,9 +272,17 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 		i++;
 		if (c[0] == '\n')
 		{
-			fin.Seek(-3, SEEK_CUR);
-			fin.Write(" \r\n",3);
-			fin.Seek(3, SEEK_CUR);
+			//fin.Seek(-3, SEEK_CUR);
+			//fin.Write(" \r\n",3);
+			//fin.Seek(3, SEEK_CUR);
+			strcat(outLine, "\r\n");
+			fout.Write(outLine, strlen(outLine));
+			memset(outLine, 0, sizeof(outLine));
+		}
+		else
+		{
+			c[1]='\0';
+			strcat(outLine, c);
 		}
 	
 		memset(c,0, sizeof(c));
@@ -272,6 +293,7 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 		}
 	}
 	fin.Close();
+	fout.Close();
 	//fileName = newFileName;
     pPrg->ShowWindow(SW_HIDE);
 	delete pPrg;

@@ -1164,7 +1164,8 @@ void CTraDoc::OpenFile(CString &fileName)
 	m_trcTyp = MOCATRACE;
     m_sFileName = fileName;
 	m_pf = new CTraFile();
-
+/*
+ * It looks below code is no longer needed as it auto support unix format now.
 	if (!IsDosFormat(fileName))
 	{
 		long ret = AfxMessageBox("Converting to DOS format?", MB_YESNO|MB_ICONQUESTION);
@@ -1179,7 +1180,7 @@ void CTraDoc::OpenFile(CString &fileName)
 			return;
 		}
 	}
-	
+*/	
 	m_pf->InitFile(fileName, 
 		           this->m_strArrLines,
 				   this->m_OptMoca->m_bShowAll,
