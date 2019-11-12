@@ -450,7 +450,7 @@ void CMainFrame::OnPaint()
 
 		dc.SelectObject(&font2);
 
-		dc.TextOut(rt.right/2+ tm.tmAveCharWidth*3, rt.bottom/2+tm.tmHeight * 1, "Version 2.0");
+		dc.TextOut(rt.right/2+ tm.tmAveCharWidth*3, rt.bottom/2+tm.tmHeight * 1, "Version 2.1");
         dc.SelectObject(pOldFont);
         if(pOldFont)
             font.DeleteObject(); 

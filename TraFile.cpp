@@ -251,8 +251,8 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 		exit(0);
 	}
 
-	char c[10];
-	memset(c,0, sizeof(c));
+	char *c = (char*)malloc(1024 * 1024 + 1);
+	memset(c,0, 1024 * 10 + 1);
     char outLine[10000];
 	memset(outLine,0, sizeof(outLine));
 	//Seek to skip first 4 chars which defines file format.
@@ -266,36 +266,45 @@ bool CTraFile::ConvertToDosFormat(CString & fileName)
 	pPrg->ShowWindow(SW_SHOW);
 	pPrg->m_cInPrg.SetRange(0,100);
 
-	long i = 4;
-	while(fin.Read(c, 1))
+	long j = 0, i = 0;
+	long n = 0, cnt = 0;
+	while(n = fin.Read(c, 1024 * 10))
 	{
-		i++;
-		if (c[0] == '\n')
+
+		for (i = 0; i < n; i++)
 		{
+		    if (c[i] == 13)
+		    {
 			//fin.Seek(-3, SEEK_CUR);
 			//fin.Write(" \r\n",3);
 			//fin.Seek(3, SEEK_CUR);
 			strcat(outLine, "\r\n");
 			fout.Write(outLine, strlen(outLine));
 			memset(outLine, 0, sizeof(outLine));
+			j = 0;
+		   }
+		   else
+		   {
+			   outLine[j++] = c[i];
+			//strcat(outLine, c);
+		   }
 		}
-		else
-		{
-			c[1]='\0';
-			strcat(outLine, c);
-		}
+
+		cnt+= i;
 	
-		memset(c,0, sizeof(c));
-		if (i % 1000 == 0)
+		//memset(c,0, sizeof(c));
+		if (cnt % 1000 == 0)
 		{
-			pPrg->m_cInPrg.SetPos((int)(i*1.0/fileSize*100.0));
+			pPrg->m_cInPrg.SetPos((int)(cnt *1.0/fileSize*100.0));
 			pPrg->m_cInPrg.SetActiveWindow();
 		}
 	}
 	fin.Close();
 	fout.Close();
 	//fileName = newFileName;
+	fileName = fileOut;
     pPrg->ShowWindow(SW_HIDE);
+	delete c;
 	delete pPrg;
 	return true;
 }
