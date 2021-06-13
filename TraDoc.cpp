@@ -1399,11 +1399,13 @@ int CTraDoc::ParseLineForMTF(CString line, CString &form)
 	{
 		formmark = this->m_OptMtf->marks[i];
 		formmark.MakeLower();
-		if(line.Find(formmark)>0)
+		int idx = line.Find(formmark);
+		if(idx >0)
 		{
-			if (line.Find("[") >= 0)
+			CString subLine = line.Right(line.GetLength() - idx -1);
+			if (subLine.Find("[") >= 0)
 			{
-				form = line.Right(line.GetLength() - line.Find("[")-1);
+				form = subLine.Right(subLine.GetLength() - subLine.Find("[")-1);
 				form = form.Left(form.Find("]"));
 				form.MakeUpper();
 				if (formmark.Find("unwind") >= 0)
@@ -1418,7 +1420,7 @@ int CTraDoc::ParseLineForMTF(CString line, CString &form)
 			}
 			else
 			{
-				form = line.Right(line.GetLength() - line.Find(">") -2);
+				form = subLine.Right(subLine.GetLength() - subLine.Find(">") -2);
 				form.MakeUpper();
 				form = form +"<";
 			}
